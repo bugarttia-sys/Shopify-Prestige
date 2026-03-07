@@ -353,6 +353,7 @@
       "block_order": [
         "therapies_liquid"
       ],
+      "disabled": true,
       "settings": {
         "color_scheme": "scheme-1",
         "separate_section_with_border": true,
@@ -368,7 +369,7 @@
           "type": "tab",
           "settings": {
             "title": "DESCRIPTION",
-            "icon": "none",
+            "icon": "picto-info",
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
