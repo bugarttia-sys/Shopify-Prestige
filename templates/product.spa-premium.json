@@ -346,7 +346,7 @@
         "therapies_liquid": {
           "type": "liquid",
           "settings": {
-            "liquid": "{% assign therapies = product.metafields.features.therapies.value %}{% if therapies %}<div class=\"spa-therapy-grid\">{% for t in therapies %}<div class=\"spa-therapy-pill\">{{ t }}</div>{% endfor %}</div>{% endif %}"
+            "liquid": "<div class=\"product-tabs\">\n  <details class=\"product-tab\" open>\n    <summary class=\"tab-header\">\n      <span>DESCRIPTION</span>\n      <span class=\"icon\">{% render 'icon-plus' %}</span>\n    </summary>\n    <div class=\"tab-content\">\n      {{ product.description }}\n    </div>\n  </details>\n\n  <details class=\"product-tab\">\n    <summary class=\"tab-header\">\n      <span>TECHNICAL SPECIFICATIONS</span>\n      <span class=\"icon\">{% render 'icon-plus' %}</span>\n    </summary>\n    <div class=\"tab-content\">\n      {{ product.metafields.custom.technical_specs }}\n    </div>\n  </details>\n</div>"
           }
         }
       },
