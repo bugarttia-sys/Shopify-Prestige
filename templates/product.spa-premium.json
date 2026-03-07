@@ -440,6 +440,7 @@
       "settings": {
         "color_scheme": "scheme-1",
         "separate_section_with_border": true,
+        "image": "{{ product.featured_image }}",
         "reveal_on_scroll": true,
         "image_position": "start",
         "content_width": "sm",
