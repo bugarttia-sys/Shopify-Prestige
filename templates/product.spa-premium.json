@@ -373,7 +373,7 @@
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
-            "open_by_default": true
+            "open_by_default": false
           }
         },
         "tab_efCdJA": {
@@ -459,7 +459,7 @@
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
-            "open_by_default": true
+            "open_by_default": false
           }
         },
         "tab_QUDYEt": {
@@ -567,7 +567,7 @@
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
-            "open_by_default": true
+            "open_by_default": false
           }
         },
         "tab_EQzYUU": {
