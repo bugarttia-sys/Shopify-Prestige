@@ -122,10 +122,12 @@
         },
         "badges": {
           "type": "badges",
+          "disabled": true,
           "settings": {}
         },
         "price": {
           "type": "price",
+          "disabled": true,
           "settings": {
             "show_taxes_notice": true
           }
