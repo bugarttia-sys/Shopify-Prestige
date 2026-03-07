@@ -1,0 +1,330 @@
+{%- if section.blocks.size > 0 -%}
+  {%- assign color_scheme_hash = section.settings.color_scheme.settings.background_gradient | default: section.settings.color_scheme.settings.background | md5 -%}
+
+  <style>
+    #shopify-section-{{ section.id }} .ca-tabs__item {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__summary {
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.25rem 0;
+      gap: 1rem;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__summary::-webkit-details-marker {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__summary::marker {
+      display: none;
+      content: '';
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__icon svg {
+      display: block;
+      width: 20px;
+      height: 20px;
+      flex-shrink: 0;
+      opacity: 0.65;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__icon {
+      display: flex;
+      flex-shrink: 0;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      line-height: 1.4;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__toggle {
+      flex-shrink: 0;
+      font-size: 1.35rem;
+      font-weight: 300;
+      line-height: 1;
+      opacity: 0.5;
+      transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__toggle::after {
+      content: '+';
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__item[open] .ca-tabs__toggle::after {
+      content: '\2212';
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__content {
+      padding: 0 0 1.5rem;
+    }
+
+    #shopify-section-{{ section.id }} .ca-tabs__content > .prose {
+      font-size: 0.875rem;
+      line-height: 1.7;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      #shopify-section-{{ section.id }} .ca-tabs__item {
+        border-color: rgba(255, 255, 255, 0.10);
+      }
+    }
+  </style>
+
+  <div class="section-spacing color-scheme color-scheme--{{ section.settings.color_scheme.id }} color-scheme--bg-{{ color_scheme_hash }} {% if section.settings.separate_section_with_border %}bordered-section{% endif %}">
+    <div class="container container--{{ section.settings.content_width }}">
+      <div class="section-stack">
+        {%- if section.settings.subheading != blank or section.settings.title != blank or section.settings.content != blank -%}
+          {%- render 'section-header', subheading: section.settings.subheading, heading: section.settings.title, content: section.settings.content -%}
+        {%- endif -%}
+
+        <div class="ca-tabs">
+          {%- for block in section.blocks -%}
+            {%- if block.settings.title != blank -%}
+              {%- comment -%}Determine which content to render: custom liquid takes priority over richtext{%- endcomment -%}
+              {%- assign has_liquid = false -%}
+              {%- if block.settings.liquid != blank -%}
+                {%- assign has_liquid = true -%}
+              {%- endif -%}
+
+              {%- assign has_richtext = false -%}
+              {%- if block.settings.text_content != blank -%}
+                {%- assign has_richtext = true -%}
+              {%- endif -%}
+
+              {%- if has_liquid or has_richtext -%}
+                <details class="ca-tabs__item" {% if block.settings.open_by_default %}open{% endif %} {{ block.shopify_attributes }}>
+                  <summary class="ca-tabs__summary">
+                    <span class="ca-tabs__label">
+                      {%- if block.settings.custom_svg != blank -%}
+                        <span class="ca-tabs__icon">{{ block.settings.custom_svg }}</span>
+                      {%- elsif block.settings.icon != 'none' -%}
+                        <span class="ca-tabs__icon">{%- render 'icon' with block.settings.icon, width: 20 -%}</span>
+                      {%- endif -%}
+
+                      <span class="ca-tabs__title">{{ block.settings.title }}</span>
+                    </span>
+                    <span class="ca-tabs__toggle" aria-hidden="true"></span>
+                  </summary>
+
+                  <div class="ca-tabs__content">
+                    {%- if has_liquid -%}
+                      <div class="prose">{{ block.settings.liquid }}</div>
+                    {%- elsif has_richtext -%}
+                      <div class="prose">{{ block.settings.text_content }}</div>
+                    {%- endif -%}
+                  </div>
+                </details>
+              {%- endif -%}
+            {%- endif -%}
+          {%- endfor -%}
+        </div>
+      </div>
+    </div>
+  </div>
+{%- endif -%}
+
+{% schema %}
+{
+  "name": "Accordion Tabs",
+  "class": "shopify-section--custom-accordion-tabs",
+  "tag": "section",
+  "disabled_on": {
+    "groups": ["header", "custom.overlay"]
+  },
+  "max_blocks": 12,
+  "settings": [
+    {
+      "type": "color_scheme",
+      "id": "color_scheme",
+      "label": "Color scheme",
+      "default": "scheme-1"
+    },
+    {
+      "type": "checkbox",
+      "id": "separate_section_with_border",
+      "label": "Separate section with border",
+      "default": true
+    },
+    {
+      "type": "select",
+      "id": "content_width",
+      "label": "Content width",
+      "options": [
+        { "value": "sm", "label": "Small" },
+        { "value": "md", "label": "Medium" },
+        { "value": "lg", "label": "Large" }
+      ],
+      "default": "md"
+    },
+    {
+      "type": "header",
+      "content": "Section header"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "subheading",
+      "label": "Subheading"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "title",
+      "label": "Heading"
+    },
+    {
+      "type": "richtext",
+      "id": "content",
+      "label": "Description"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "tab",
+      "name": "Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab title"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "picto-award-gift", "label": "Award gift", "group": "Shop" },
+            { "value": "picto-bag-handle", "label": "Bag handle", "group": "Shop" },
+            { "value": "picto-building", "label": "Building", "group": "Shop" },
+            { "value": "picto-coupon", "label": "Coupon", "group": "Shop" },
+            { "value": "picto-gift", "label": "Gift", "group": "Shop" },
+            { "value": "picto-info", "label": "Info", "group": "Shop" },
+            { "value": "picto-love", "label": "Love", "group": "Shop" },
+            { "value": "picto-percent", "label": "Percent", "group": "Shop" },
+            { "value": "picto-star", "label": "Star", "group": "Shop" },
+            { "value": "picto-box", "label": "Box", "group": "Shipping" },
+            { "value": "picto-delivery-truck", "label": "Delivery truck", "group": "Shipping" },
+            { "value": "picto-pin", "label": "Pin", "group": "Shipping" },
+            { "value": "picto-plane", "label": "Plane", "group": "Shipping" },
+            { "value": "picto-return", "label": "Return", "group": "Shipping" },
+            { "value": "picto-credit-card", "label": "Credit card", "group": "Payment & Security" },
+            { "value": "picto-lock", "label": "Lock", "group": "Payment & Security" },
+            { "value": "picto-money", "label": "Money", "group": "Payment & Security" },
+            { "value": "picto-secure-profile", "label": "Secure profile", "group": "Payment & Security" },
+            { "value": "picto-shield", "label": "Shield", "group": "Payment & Security" },
+            { "value": "picto-earth", "label": "Earth", "group": "Ecology" },
+            { "value": "picto-leaf", "label": "Leaf", "group": "Ecology" },
+            { "value": "picto-recycle", "label": "Recycle", "group": "Ecology" },
+            { "value": "picto-tree", "label": "Tree", "group": "Ecology" },
+            { "value": "picto-at-sign", "label": "At sign", "group": "Tech" },
+            { "value": "picto-bluetooth", "label": "Bluetooth", "group": "Tech" },
+            { "value": "picto-camera", "label": "Camera", "group": "Tech" },
+            { "value": "picto-printer", "label": "Printer", "group": "Tech" },
+            { "value": "picto-smart-watch", "label": "Smart watch", "group": "Tech" },
+            { "value": "picto-wifi", "label": "WiFi", "group": "Tech" },
+            { "value": "picto-avatar", "label": "Avatar", "group": "Communication" },
+            { "value": "picto-chat", "label": "Chat", "group": "Communication" },
+            { "value": "picto-calendar", "label": "Calendar", "group": "Communication" },
+            { "value": "picto-comment", "label": "Comment", "group": "Communication" },
+            { "value": "picto-customer-support", "label": "Customer support", "group": "Communication" },
+            { "value": "picto-happy-face", "label": "Happy face", "group": "Communication" },
+            { "value": "picto-mailbox", "label": "Mailbox", "group": "Communication" },
+            { "value": "picto-mobile-phone", "label": "Mobile phone", "group": "Communication" },
+            { "value": "picto-operator", "label": "Operator", "group": "Communication" },
+            { "value": "picto-phone", "label": "Phone", "group": "Communication" },
+            { "value": "picto-send", "label": "Send", "group": "Communication" },
+            { "value": "picto-user", "label": "User", "group": "Communication" },
+            { "value": "picto-document", "label": "Document", "group": "Other" },
+            { "value": "picto-file", "label": "File", "group": "Other" },
+            { "value": "picto-jewelry", "label": "Jewelry", "group": "Other" },
+            { "value": "picto-music", "label": "Music", "group": "Other" },
+            { "value": "picto-target", "label": "Target", "group": "Other" },
+            { "value": "picto-timer", "label": "Timer", "group": "Other" },
+            { "value": "picto-success", "label": "Success", "group": "Other" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "html",
+          "id": "custom_svg",
+          "label": "Custom SVG icon",
+          "info": "Paste an inline SVG to use as the left-side icon. Overrides the icon picker above."
+        },
+        {
+          "type": "richtext",
+          "id": "text_content",
+          "label": "Text content",
+          "info": "Used as fallback when 'Custom Liquid' is empty."
+        },
+        {
+          "type": "liquid",
+          "id": "liquid",
+          "label": "Custom Liquid / Metafields",
+          "info": "Use Liquid code or metafield tags like {{ product.metafields.custom.specs }}. Takes priority over Text content."
+        },
+        {
+          "type": "checkbox",
+          "id": "open_by_default",
+          "label": "Open by default",
+          "default": false
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Accordion Tabs",
+      "blocks": [
+        {
+          "type": "tab",
+          "settings": {
+            "title": "DESCRIPTION",
+            "icon": "none",
+            "text_content": "<p>Add your product description or any text content here.</p>",
+            "open_by_default": true
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "TECHNICAL SPECIFICATIONS",
+            "icon": "picto-file",
+            "text_content": "<p>Add technical specifications or use the Custom Liquid field for metafields.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "CONSTRUCTION & MATERIALS",
+            "icon": "picto-box",
+            "text_content": "<p>Describe the construction and materials used.</p>"
+          }
+        },
+        {
+          "type": "tab",
+          "settings": {
+            "title": "WARRANTY COVERAGE",
+            "icon": "picto-shield",
+            "text_content": "<p>Outline the warranty coverage details.</p>"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}
