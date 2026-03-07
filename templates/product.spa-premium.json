@@ -142,6 +142,7 @@
         },
         "variant_picker": {
           "type": "variant_picker",
+          "disabled": true,
           "settings": {
             "hide_sold_out_variants": false,
             "selector_style": "block",
@@ -152,10 +153,12 @@
         },
         "quantity_selector": {
           "type": "quantity_selector",
+          "disabled": true,
           "settings": {}
         },
         "buy_buttons": {
           "type": "buy_buttons",
+          "disabled": true,
           "settings": {
             "show_payment_button": true,
             "show_gift_card_recipient": false,
@@ -167,12 +170,14 @@
         },
         "trust_origin": {
           "type": "liquid",
+          "disabled": true,
           "settings": {
             "liquid": "{% assign origin = product.metafields.product.made_in.value | default: 'The Netherlands' %}<div class=\"product-info__feature-with-icon\"><svg class=\"icon\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M3 21V3h18v18H3z\"/><path d=\"M3 8h18M3 16h18\"/></svg><span>Handcrafted in {{ origin }}</span></div>"
           }
         },
         "trust_warranty": {
           "type": "liquid",
+          "disabled": true,
           "settings": {
             "liquid": "{% assign yrs = product.metafields.warranty.structure_years.value | default: '10' %}<div class=\"product-info__feature-with-icon\"><svg class=\"icon\" viewBox=\"0 0 24 24\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.5\"><path d=\"M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0 1 12 2.944a11.955 11.955 0 0 1-8.618 3.04A12.02 12.02 0 0 0 3 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z\"/></svg><span>{{ yrs }}-Year Structural Warranty</span></div>"
           }
