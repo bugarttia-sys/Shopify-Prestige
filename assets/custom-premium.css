@@ -397,8 +397,91 @@
 
 
 /* ---------------------------------------------------------------
-   10. THERAPY / PROPRIETARY PILL GRID
+   10. PRODUCT DETAILS ACCORDION TABS
    --------------------------------------------------------------- */
+.product-tabs {
+  width: 100%;
+}
+
+.product-tab {
+  border-bottom: 1px solid var(--gms-border);
+}
+
+.product-tab summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  gap: 1rem;
+}
+
+.product-tab summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-tab summary::marker {
+  display: none;
+  content: '';
+}
+
+.tab-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tab-header__left svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+
+.tab-header__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tab-header__toggle {
+  flex-shrink: 0;
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--gms-mid-grey);
+  transition: transform var(--gms-transition);
+}
+
+.tab-header__toggle::after {
+  content: '+';
+}
+
+.product-tab[open] .tab-header__toggle::after {
+  content: '\2212';
+}
+
+.tab-content {
+  padding: 0 0 1.5rem;
+}
+
+.tab-content p,
+.tab-content ul,
+.tab-content ol,
+.tab-content table {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.tab-content p + p {
+  margin-top: 0.75rem;
+}
+
+/* Legacy pill styles kept for proprietary features section */
 .spa-therapy-grid {
   display: flex;
   flex-wrap: wrap;
@@ -627,6 +710,11 @@
 
 [class*="scheme-3"] .spa-feature-list--inline li,
 [class*="scheme-4"] .spa-feature-list--inline li {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .product-tab,
+[class*="scheme-4"] .product-tab {
   border-color: var(--gms-border-dark);
 }
 
