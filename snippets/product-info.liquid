@@ -90,6 +90,9 @@ Supported variables
         elsif block.type == 'description' and product.description != blank and block.settings.collapse_content and next_block.type == 'accordion' and next_block.settings.show_below_gallery != true
           assign block_group_class = 'accordion-group'
           assign block_group_name = 'accordion-group'
+        elsif block.type == 'premium_accordion_tab' and next_block.type == 'premium_accordion_tab'
+          assign block_group_class = 'accordion-group'
+          assign block_group_name = 'premium-accordion-group'
         elsif block.type == 'feature_with_icon' and next_block.type == 'feature_with_icon'
           assign block_group_class = 'feature-badge-list'
           assign block_group_name = 'feature-badge-list'
@@ -528,6 +531,26 @@ Supported variables
               </div>
             </share-button>
 
+          {%- when 'premium_accordion_tab' -%}
+            {%- if block.settings.title != blank and block.settings.content != blank -%}
+              <details class="product-tab" {{ block.shopify_attributes }}>
+                <summary>
+                  <span class="tab-header__left">
+                    {%- if block.settings.custom_icon != blank -%}
+                      <span class="tab-header__icon">{{ block.settings.custom_icon }}</span>
+                    {%- elsif block.settings.icon != 'none' -%}
+                      <span class="tab-header__icon">{%- render 'icon' with block.settings.icon, width: 20 -%}</span>
+                    {%- endif -%}
+                    <span class="tab-header__title">{{ block.settings.title }}</span>
+                  </span>
+                  <span class="tab-header__toggle" aria-hidden="true"></span>
+                </summary>
+                <div class="tab-content">
+                  <div class="prose">{{ block.settings.content }}</div>
+                </div>
+              </details>
+            {%- endif -%}
+
           {%- when 'more_information' -%}
             {%- comment -%}We need at least one block compatible with below gallery information{%- endcomment -%}
             {%- if block.settings.text != blank and has_content_below_gallery -%}
@@ -544,7 +567,7 @@ Supported variables
         <div class="product-info__block-group {{ block_group_class }}" data-group-type="{{ block_group_name }}">
       {%- endif -%}
 
-      <div class="product-info__block-item" data-block-id="{{ block.id }}" data-block-type="{{ block.type | replace: '_', '-' }}" {% unless block.type == '@app' or block.type == 'accordion' %}{{ block.shopify_attributes }}{% endunless %}>
+      <div class="product-info__block-item" data-block-id="{{ block.id }}" data-block-type="{{ block.type | replace: '_', '-' }}" {% unless block.type == '@app' or block.type == 'accordion' or block.type == 'premium_accordion_tab' %}{{ block.shopify_attributes }}{% endunless %}>
         {{- block_content -}}
       </div>
 

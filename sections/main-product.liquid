@@ -1594,6 +1594,63 @@ quick buy information in a template, that will be extracted in JS, which ensures
       ]
     },
     {
+      "type": "premium_accordion_tab",
+      "name": "Premium Accordion Tab",
+      "settings": [
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Tab title",
+          "default": "Tab title"
+        },
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "none", "label": "None" },
+            { "value": "picto-file", "label": "File", "group": "Other" },
+            { "value": "picto-document", "label": "Document", "group": "Other" },
+            { "value": "picto-box", "label": "Box", "group": "Shipping" },
+            { "value": "picto-shield", "label": "Shield", "group": "Payment & Security" },
+            { "value": "picto-info", "label": "Info", "group": "Shop" },
+            { "value": "picto-love", "label": "Love", "group": "Shop" },
+            { "value": "picto-star", "label": "Star", "group": "Shop" },
+            { "value": "picto-gift", "label": "Gift", "group": "Shop" },
+            { "value": "picto-coupon", "label": "Coupon", "group": "Shop" },
+            { "value": "picto-delivery-truck", "label": "Delivery truck", "group": "Shipping" },
+            { "value": "picto-return", "label": "Return", "group": "Shipping" },
+            { "value": "picto-lock", "label": "Lock", "group": "Payment & Security" },
+            { "value": "picto-credit-card", "label": "Credit card", "group": "Payment & Security" },
+            { "value": "picto-secure-profile", "label": "Secure profile", "group": "Payment & Security" },
+            { "value": "picto-earth", "label": "Earth", "group": "Ecology" },
+            { "value": "picto-leaf", "label": "Leaf", "group": "Ecology" },
+            { "value": "picto-recycle", "label": "Recycle", "group": "Ecology" },
+            { "value": "picto-timer", "label": "Timer", "group": "Other" },
+            { "value": "picto-success", "label": "Success", "group": "Other" },
+            { "value": "picto-target", "label": "Target", "group": "Other" },
+            { "value": "picto-chat", "label": "Chat", "group": "Communication" },
+            { "value": "picto-comment", "label": "Comment", "group": "Communication" },
+            { "value": "picto-phone", "label": "Phone", "group": "Communication" },
+            { "value": "picto-customer-support", "label": "Customer support", "group": "Communication" }
+          ],
+          "default": "none"
+        },
+        {
+          "type": "html",
+          "id": "custom_icon",
+          "label": "Custom SVG icon",
+          "info": "Paste an inline SVG to use as the left-side icon. Overrides the icon picker above."
+        },
+        {
+          "type": "liquid",
+          "id": "content",
+          "label": "Content (Liquid / Metafields)",
+          "info": "Use Liquid code like {{ product.metafields.custom.tech_specs }} or HTML content."
+        }
+      ]
+    },
+    {
       "type": "liquid",
       "name": "t:sections.main_product.blocks.liquid.name",
       "settings": [

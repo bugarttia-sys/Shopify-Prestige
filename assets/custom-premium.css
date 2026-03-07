@@ -432,6 +432,11 @@
   gap: 0.75rem;
 }
 
+.tab-header__icon {
+  display: flex;
+  flex-shrink: 0;
+}
+
 .tab-header__left svg {
   width: 20px;
   height: 20px;
