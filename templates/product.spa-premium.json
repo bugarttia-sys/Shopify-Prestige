@@ -195,7 +195,7 @@
         },
         "desc_accordion": {
           "type": "description",
-          "name": "Descriptio",
+          "name": "Description",
           "settings": {
             "collapse_content": true,
             "show_below_gallery": true
