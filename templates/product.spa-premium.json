@@ -361,6 +361,70 @@
         "remove_vertical_spacing": false
       }
     },
+    "custom_accordion_tabs_e9itHq": {
+      "type": "custom-accordion-tabs",
+      "blocks": {
+        "tab_qhkKx8": {
+          "type": "tab",
+          "settings": {
+            "title": "DESCRIPTION",
+            "icon": "none",
+            "custom_svg": "",
+            "text_content": "<p>Add your product description or any text content here.</p>",
+            "liquid": "",
+            "open_by_default": true
+          }
+        },
+        "tab_efCdJA": {
+          "type": "tab",
+          "settings": {
+            "title": "TECHNICAL SPECIFICATIONS",
+            "icon": "picto-file",
+            "custom_svg": "",
+            "text_content": "<p>Add technical specifications or use the Custom Liquid field for metafields.</p>",
+            "liquid": "",
+            "open_by_default": false
+          }
+        },
+        "tab_Eezkjm": {
+          "type": "tab",
+          "settings": {
+            "title": "CONSTRUCTION & MATERIALS",
+            "icon": "picto-box",
+            "custom_svg": "",
+            "text_content": "<p>Describe the construction and materials used.</p>",
+            "liquid": "",
+            "open_by_default": false
+          }
+        },
+        "tab_QM8dpB": {
+          "type": "tab",
+          "settings": {
+            "title": "WARRANTY COVERAGE",
+            "icon": "picto-shield",
+            "custom_svg": "",
+            "text_content": "<p>Outline the warranty coverage details.</p>",
+            "liquid": "",
+            "open_by_default": false
+          }
+        }
+      },
+      "block_order": [
+        "tab_qhkKx8",
+        "tab_efCdJA",
+        "tab_Eezkjm",
+        "tab_QM8dpB"
+      ],
+      "name": "Accordion Tabs",
+      "settings": {
+        "color_scheme": "",
+        "separate_section_with_border": true,
+        "content_width": "md",
+        "subheading": "",
+        "title": "",
+        "content": ""
+      }
+    },
     "interior_story": {
       "type": "image-with-text-block",
       "blocks": {
@@ -718,6 +782,7 @@
     "exterior_gallery",
     "design_scroll",
     "therapies_section",
+    "custom_accordion_tabs_e9itHq",
     "interior_story",
     "technology_story",
     "proprietary_features",
