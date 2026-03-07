@@ -455,7 +455,7 @@
           "type": "tab",
           "settings": {
             "title": "DESCRIPTION",
-            "icon": "none",
+            "icon": "picto-timer",
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
@@ -563,7 +563,7 @@
           "type": "tab",
           "settings": {
             "title": "DESCRIPTION",
-            "icon": "none",
+            "icon": "picto-customer-support",
             "custom_svg": "",
             "text_content": "<p>Add your product description or any text content here.</p>",
             "liquid": "",
