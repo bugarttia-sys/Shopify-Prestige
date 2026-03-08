@@ -10,7 +10,7 @@
 {
   "sections": {
     "hero_banner": {
-      "type": "image-with-text-overlay",
+      "type": "custom-image-with-text-overlay",
       "blocks": {
         "hero_subheading": {
           "type": "subheading",
