@@ -839,3 +839,24 @@
 
 /* BMW-style hero button gap — scoped to homepage slideshow only */
 #shopify-section-slideshow .button-group { gap: 0.75rem; }
+
+/* Mobile: stack buttons full-width like BMW */
+@media (max-width: 699px) {
+  #shopify-section-slideshow .button-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  #shopify-section-slideshow .button-group .button {
+    width: 100%;
+  }
+  #shopify-section-hero_banner .prose .button {
+    display: flex;
+    width: 100%;
+    justify-content: center;
+  }
+  #shopify-section-hero_banner .prose .button + .button {
+    margin-inline-start: 0;
+    margin-block-start: 0.5rem;
+  }
+}
