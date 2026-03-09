@@ -1,2 +1,6 @@
-/* BMW-style hero button gap — scoped to homepage slideshow only */
-#shopify-section-slideshow .button-group { gap: 2.75rem; }
+/* Product page button spacing — BMW-style */
+.product-form__buttons { gap: 2.5rem; }
+.product-form__input { gap: 0.5rem; }
+.product-options-container button { gap: 2.5rem; }
+.selector-wrapper button { gap: 2.5rem; }
+button { gap: 2.5rem; }
