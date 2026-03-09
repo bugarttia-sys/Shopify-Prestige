@@ -34,7 +34,7 @@
         "hero_button_css": {
           "type": "liquid",
           "settings": {
-            "liquid": "<style>#shopify-section-{{ section.id }} .prose .button:has(+ .button) { display: inline-flex; } #shopify-section-{{ section.id }} .prose .button + .button { display: inline-flex; margin-block-start: 0; margin-inline-start: 1.25rem; }<\/style>"
+            "liquid": "<style>#shopify-section-{{ section.id }} .prose .button:has(+ .button) { display: inline-flex; } #shopify-section-{{ section.id }} .prose .button + .button { display: inline-flex; margin-block-start: 0; margin-inline-start: 0.75rem; }<\/style>"
           }
         },
         "hero_cta": {
