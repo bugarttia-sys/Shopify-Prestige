@@ -1,15 +1,843 @@
-/* BMW-style hero button gap — scoped to homepage slideshow only */
-#shopify-section-slideshow .button-group {
-    gap: 2.5rem;
+/* =====================================================================
+   GRAND MASTER SPAS — BMW-LEVEL PREMIUM UX OVERRIDES  (v5 — block fix)
+   Theme: Prestige by Maestrooo
+   Load: After theme.css via assets/custom.css or Shopify admin
+   ===================================================================== */
+
+
+/* ---------------------------------------------------------------
+   0. DESIGN TOKENS
+   --------------------------------------------------------------- */
+:root {
+  --gms-gold:        #C9A96E;
+  --gms-gold-light:  #E4D5B7;
+  --gms-charcoal:    #1A1A1A;
+  --gms-slate:       #2C2C2C;
+  --gms-mid-grey:    #6B7280;
+  --gms-light-grey:  #F5F5F5;
+  --gms-border:      rgba(0, 0, 0, 0.06);
+  --gms-border-dark: rgba(255, 255, 255, 0.10);
+  --gms-text-muted:  0.55;
+  --gms-radius:      2px;
+  --gms-transition:  0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-/* Force BMW-style button gap on ALL product pages */
-.prose .button + .button {
-    gap: 2.5rem !important;
+
+/* ---------------------------------------------------------------
+   1. HERO BANNER — eerste sectie, full-bleed
+   --------------------------------------------------------------- */
+.shopify-section--image-with-text-overlay:first-of-type .content-over-media--fill {
+  min-height: 100vh;
+  min-height: 100dvh;
 }
-.prose .button:has(+ .button) {
-    gap: 2.5rem !important;
+
+.shopify-section--image-with-text-overlay:first-of-type .content-over-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.65) 0%,
+    rgba(0, 0, 0, 0.20) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  z-index: 1;
 }
+
+.shopify-section--image-with-text-overlay:first-of-type .content {
+  z-index: 2;
+  padding-bottom: clamp(2.5rem, 6vw, 5rem);
+}
+
+.shopify-section--image-with-text-overlay:first-of-type .content .h6 {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.75;
+  margin-bottom: 0.5rem;
+}
+
+.shopify-section--image-with-text-overlay:first-of-type .content h1,
+.shopify-section--image-with-text-overlay:first-of-type .content .h1 {
+  font-size: clamp(2.8rem, 6vw, 5.5rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 0.75rem;
+}
+
+.shopify-section--image-with-text-overlay:first-of-type .content p {
+  font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+  opacity: 0.8;
+  max-width: 32ch;
+  margin-inline: auto;
+}
+
+
+/* ---------------------------------------------------------------
+   2. STORYTELLING BANNERS — BMW-stijl (alle volgende overlays)
+   Tekst links-onderaan, geen achtergrondbox, gradient van links.
+   --------------------------------------------------------------- */
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content-over-media {
+  min-height: 70vh;
+}
+
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content-over-media::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to right,  rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.30) 45%, transparent 72%),
+    linear-gradient(to top,    rgba(0,0,0,0.45) 0%, transparent 55%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content {
+  z-index: 2;
+  max-width: 580px;
+  background: none;
+  box-shadow: none;
+  border: none;
+}
+
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content .spa-subtitle {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--gms-gold);
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content h2,
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content .h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 20ch;
+  margin-bottom: 0.75rem;
+}
+
+.shopify-section--image-with-text-overlay:not(:first-of-type) .content .prose p {
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.7;
+  opacity: 0.82;
+  max-width: 46ch;
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------------
+   3. AT-A-GLANCE STATS BAR
+   --------------------------------------------------------------- */
+[id*="at_a_glance"] .spa-key-specs {
+  border-top: 1px solid var(--gms-border);
+  border-bottom: 1px solid var(--gms-border);
+  padding: 2rem 0;
+}
+
+[id*="at_a_glance"] .spa-spec {
+  position: relative;
+  padding: 0 1.5rem;
+}
+
+[id*="at_a_glance"] .spa-spec:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 10%;
+  height: 80%;
+  width: 1px;
+  background: var(--gms-border);
+}
+
+
+/* ---------------------------------------------------------------
+   4. COLLECTION TIER BADGE
+   --------------------------------------------------------------- */
+.spa-tier-badge {
+  display: inline-block;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 0.3em 1.1em;
+  border: 1px solid currentColor;
+  border-radius: var(--gms-radius);
+  margin-bottom: 0.5rem;
+  transition: var(--gms-transition);
+}
+.spa-tier--exclusive { color: var(--gms-gold);     border-color: var(--gms-gold); }
+.spa-tier--signature { color: var(--gms-mid-grey); border-color: var(--gms-mid-grey); }
+.spa-tier--essential { color: #3B82F6;              border-color: #3B82F6; }
+
+
+/* ---------------------------------------------------------------
+   5. PRODUCT SUBTITLE (buiten banners)
+   --------------------------------------------------------------- */
+.spa-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-color);
+  opacity: 0.6;
+  letter-spacing: 0.015em;
+  margin-top: -0.25rem;
+  margin-bottom: 0.75rem;
+  font-style: italic;
+}
+
+
+/* ---------------------------------------------------------------
+   6. KEY SPECS GRID — subgrid voor perfecte uitlijning
+   Rij 1 = waarde · Rij 2 = label · Rij 3 = subtekst
+   Alle 4 kolommen delen exact dezelfde rijhoogtes.
+   --------------------------------------------------------------- */
+.spa-key-specs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-template-rows: auto auto auto;
+  column-gap: 0.5rem;
+  text-align: center;
+  padding: 1.5rem 0;
+  border-top: 1px solid var(--gms-border);
+  border-bottom: 1px solid var(--gms-border);
+  margin: 0.5rem 0;
+}
+
+.spa-spec {
+  grid-row: span 3;
+  display: grid;
+  grid-template-rows: subgrid;
+  justify-items: center;
+}
+
+.spa-spec__value {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  align-self: end;
+  padding-bottom: 0.15rem;
+}
+
+.spa-spec__value small {
+  font-size: 0.5em;
+  opacity: 0.4;
+  margin: 0 0.08em;
+}
+
+.spa-spec__label {
+  font-size: 0.6rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: var(--gms-text-muted);
+  align-self: center;
+}
+
+.spa-spec__sub {
+  font-size: 0.72rem;
+  opacity: 0.5;
+  margin-top: 0.15rem;
+  align-self: start;
+}
+
+
+/* ---------------------------------------------------------------
+   7. SPECIFICATIONS TABLE
+   --------------------------------------------------------------- */
+.spa-specs-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.spa-specs-table tr {
+  border-bottom: 1px solid var(--gms-border);
+  transition: background-color var(--gms-transition);
+}
+
+.spa-specs-table tr:hover {
+  background-color: rgba(0, 0, 0, 0.015);
+}
+
+.spa-specs-table td {
+  padding: 0.65rem 0;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.spa-specs-table td:first-child {
+  font-weight: 500;
+  opacity: 0.65;
+  width: 42%;
+  padding-right: 1rem;
+}
+
+.spa-specs-table td:last-child {
+  text-align: right;
+  font-weight: 500;
+}
+
+.spa-specs-table--wide {
+  max-width: 640px;
+  margin-inline: auto;
+}
+
+.spa-specs-table--wide td:first-child {
+  width: 50%;
+}
+
+.spa-specs-detail {
+  padding: 1.5rem 0;
+}
+
+
+/* ---------------------------------------------------------------
+   8. LIST SECTIONS
+   --------------------------------------------------------------- */
+.spa-list-section {
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--gms-border);
+}
+
+.spa-list-title {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  opacity: 0.5;
+  margin-bottom: 0.6rem;
+}
+
+.spa-feature-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.spa-feature-list li {
+  position: relative;
+  padding: 0.35rem 0 0.35rem 1.25rem;
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.spa-feature-list li::before {
+  content: '✓';
+  position: absolute;
+  left: 0;
+  color: var(--gms-gold);
+  font-weight: 700;
+  font-size: 0.75rem;
+}
+
+.spa-feature-list--inline {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.spa-feature-list--inline li {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 500;
+  padding: 0.3em 0.85em;
+  border: 1px solid var(--gms-border);
+  border-radius: 100px;
+  letter-spacing: 0.01em;
+}
+
+
+/* ---------------------------------------------------------------
+   9. HIGHLIGHTS GRID
+   --------------------------------------------------------------- */
+.spa-highlights-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+  padding: 1rem 0;
+}
+
+.spa-highlight-card {
+  text-align: center;
+  padding: 1.5rem 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.spa-highlight-card__icon {
+  font-size: 2rem;
+  margin-bottom: 0.75rem;
+  opacity: 0.7;
+}
+
+.spa-highlight-card__title {
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.5rem;
+}
+
+.spa-highlight-card__body {
+  font-size: 0.85rem;
+  line-height: 1.65;
+  opacity: 0.7;
+  max-width: 36ch;
+  margin-inline: auto;
+  flex-grow: 1;
+}
+
+
+/* ---------------------------------------------------------------
+   10. PRODUCT DETAILS ACCORDION TABS
+   --------------------------------------------------------------- */
+.product-tabs {
+  width: 100%;
+}
+
+.product-tab {
+  border-bottom: 1px solid var(--gms-border);
+}
+
+.product-tab summary {
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.25rem 0;
+  gap: 1rem;
+}
+
+.product-tab summary::-webkit-details-marker {
+  display: none;
+}
+
+.product-tab summary::marker {
+  display: none;
+  content: '';
+}
+
+.tab-header__left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.tab-header__left svg {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+  opacity: 0.65;
+}
+
+.tab-header__title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.tab-header__toggle {
+  flex-shrink: 0;
+  font-size: 1.35rem;
+  font-weight: 300;
+  line-height: 1;
+  color: var(--gms-mid-grey);
+  transition: transform var(--gms-transition);
+}
+
+.tab-header__toggle::after {
+  content: '+';
+}
+
+.product-tab[open] .tab-header__toggle::after {
+  content: '\2212';
+}
+
+.tab-content {
+  padding: 0 0 1.5rem;
+}
+
+.tab-content p,
+.tab-content ul,
+.tab-content ol,
+.tab-content table {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  opacity: 0.8;
+  margin: 0;
+}
+
+.tab-content p + p {
+  margin-top: 0.75rem;
+}
+
+/* Legacy pill styles kept for proprietary features section */
+.spa-therapy-grid {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.6rem;
+  padding: 1rem 0;
+}
+
+.spa-therapy-pill {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.8rem;
+  font-weight: 500;
+  padding: 0.5em 1.2em;
+  border: 1px solid var(--gms-border);
+  border-radius: 100px;
+  letter-spacing: 0.01em;
+  transition: var(--gms-transition);
+}
+
+.spa-therapy-pill:hover {
+  border-color: var(--gms-charcoal);
+}
+
+.spa-therapy-pill--gold {
+  border-color: var(--gms-gold);
+  color: var(--gms-gold);
+}
+
+.spa-therapy-pill--gold:hover {
+  background: var(--gms-gold);
+  color: #fff;
+}
+
+
+/* ---------------------------------------------------------------
+   11. FAQ ACCORDION
+   --------------------------------------------------------------- */
+.spa-faq-list {
+  max-width: 700px;
+  margin-inline: auto;
+}
+
+.spa-faq-item {
+  border-bottom: 1px solid var(--gms-border);
+}
+
+.spa-faq-question {
+  cursor: pointer;
+  padding: 1.15rem 2rem 1.15rem 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  line-height: 1.4;
+  position: relative;
+  list-style: none;
+}
+
+.spa-faq-question::-webkit-details-marker {
+  display: none;
+}
+
+.spa-faq-question::after {
+  content: '+';
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.25rem;
+  font-weight: 300;
+  color: var(--gms-mid-grey);
+  transition: transform var(--gms-transition);
+}
+
+.spa-faq-item[open] .spa-faq-question::after {
+  content: '−';
+}
+
+.spa-faq-answer {
+  padding: 0 0 1.25rem;
+}
+
+.spa-faq-answer p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  opacity: 0.75;
+  margin: 0;
+}
+
+
+/* ---------------------------------------------------------------
+   12. PRODUCT GALLERY
+   --------------------------------------------------------------- */
+.product-gallery__media img {
+  border-radius: var(--gms-radius);
+}
+
+
+/* ---------------------------------------------------------------
+   13. IMAGE WITH TEXT BLOCK — BMW-stijl positionering
+   Content gecentreerd-links, geen achtergrondbox, tekst links.
+   Werkt voor alle image-with-text-block secties sitebreed.
+   --------------------------------------------------------------- */
+.shopify-section--image-with-text-block .content {
+  place-self: center start !important;
+  text-align: left !important;
+  margin: 0 !important;
+}
+
+.shopify-section--image-with-text-block .content .prose {
+  text-align: left;
+}
+
+.shopify-section--image-with-text-block .content .spa-subtitle {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-style: normal;
+  color: var(--gms-gold);
+  opacity: 0.9;
+  margin-bottom: 0.5rem;
+}
+
+.shopify-section--image-with-text-block .content h2,
+.shopify-section--image-with-text-block .content .h2 {
+  font-size: clamp(2rem, 4vw, 3.25rem);
+  font-weight: 300;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  max-width: 20ch;
+  margin-bottom: 0.75rem;
+}
+
+.shopify-section--image-with-text-block .content .prose p {
+  font-size: clamp(0.85rem, 1.1vw, 1rem);
+  line-height: 1.7;
+  opacity: 0.82;
+  max-width: 46ch;
+  margin: 0;
+}
+
+@media (max-width: 699px) {
+  .shopify-section--image-with-text-block .content {
+    place-self: end start !important;
+  }
+}
+
+
+/* ---------------------------------------------------------------
+   14. TRUST ICONS
+   --------------------------------------------------------------- */
+.product-info .feature-with-icon,
+.product-info .product-info__feature-with-icon {
+  opacity: 0.7;
+  transition: opacity var(--gms-transition);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+}
+
+.product-info .feature-with-icon:hover,
+.product-info .product-info__feature-with-icon:hover {
+  opacity: 1;
+}
+
+.product-info__feature-with-icon svg {
+  flex-shrink: 0;
+}
+
+
+/* ---------------------------------------------------------------
+   15. STICKY ADD-TO-CART BAR
+   --------------------------------------------------------------- */
+.product-sticky-bar {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+
+/* ---------------------------------------------------------------
+   16. GLOBAL TYPOGRAPHY
+   --------------------------------------------------------------- */
+.template-product .section-header .h2 {
+  font-weight: 300;
+  letter-spacing: -0.01em;
+}
+
+.template-product .section-header .h6 {
+  font-size: 0.65rem;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+
+/* ---------------------------------------------------------------
+   17. SCROLL ANIMATIONS
+   --------------------------------------------------------------- */
+[reveal-on-scroll] {
+  --reveal-duration: 0.9s;
+  --reveal-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+
+/* ---------------------------------------------------------------
+   18. DARK SCHEME OVERRIDES
+   --------------------------------------------------------------- */
+[class*="scheme-3"] .spa-key-specs,
+[class*="scheme-4"] .spa-key-specs {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-specs-table tr,
+[class*="scheme-4"] .spa-specs-table tr {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-specs-table tr:hover,
+[class*="scheme-4"] .spa-specs-table tr:hover {
+  background-color: rgba(255, 255, 255, 0.03);
+}
+
+[class*="scheme-3"] .spa-list-section,
+[class*="scheme-4"] .spa-list-section {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-feature-list--inline li,
+[class*="scheme-4"] .spa-feature-list--inline li {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .product-tab,
+[class*="scheme-4"] .product-tab {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-therapy-pill,
+[class*="scheme-4"] .spa-therapy-pill {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-therapy-pill:hover,
+[class*="scheme-4"] .spa-therapy-pill:hover {
+  border-color: rgba(255, 255, 255, 0.5);
+}
+
+[class*="scheme-3"] [id*="at_a_glance"] .spa-spec:not(:last-child)::after,
+[class*="scheme-4"] [id*="at_a_glance"] .spa-spec:not(:last-child)::after {
+  background: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] [id*="at_a_glance"] .spa-key-specs,
+[class*="scheme-4"] [id*="at_a_glance"] .spa-key-specs {
+  border-color: var(--gms-border-dark);
+}
+
+[class*="scheme-3"] .spa-faq-item,
+[class*="scheme-4"] .spa-faq-item {
+  border-color: var(--gms-border-dark);
+}
+
+
+/* ---------------------------------------------------------------
+   19. RESPONSIVE — MOBILE (≤ 699px)
+   --------------------------------------------------------------- */
+@media (max-width: 699px) {
+
+  /* Hero */
+  .shopify-section--image-with-text-overlay:first-of-type .content {
+    padding-bottom: 2rem;
+    padding-inline: 1.25rem;
+  }
+
+  .shopify-section--image-with-text-overlay:first-of-type .content h1,
+  .shopify-section--image-with-text-overlay:first-of-type .content .h1 {
+    font-size: 2.2rem;
+  }
+
+  /* Storytelling banners */
+  .shopify-section--image-with-text-overlay:not(:first-of-type) .content {
+    padding: 2rem 1.25rem;
+    max-width: 100%;
+  }
+
+  .shopify-section--image-with-text-overlay:not(:first-of-type) .content-over-media::after {
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, 0.78) 0%,
+      rgba(0, 0, 0, 0.25) 55%,
+      transparent 100%
+    );
+  }
+
+  /* Specs grid: 2×2 */
+  .spa-key-specs {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 0.75rem;
+    padding: 1.25rem 0;
+  }
+
+  .spa-spec__value {
+    font-size: 1.4rem;
+  }
+
+  /* Extra ademruimte boven de onderste rij */
+  .spa-spec:nth-child(3) .spa-spec__value,
+  .spa-spec:nth-child(4) .spa-spec__value {
+    padding-top: 1.25rem;
+  }
+
+  /* At-a-glance dividers weg op mobile */
+  [id*="at_a_glance"] .spa-key-specs {
+    grid-template-columns: repeat(2, 1fr);
+    column-gap: 0.75rem;
+    padding: 1.25rem 0;
+  }
+
+  [id*="at_a_glance"] .spa-spec:not(:last-child)::after {
+    display: none;
+  }
+
+  /* Highlights */
+  .spa-highlights-grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  /* Pills */
+  .spa-therapy-grid {
+    gap: 0.4rem;
+  }
+
+  .spa-therapy-pill {
+    font-size: 0.72rem;
+    padding: 0.4em 0.9em;
+  }
+}
+
+
+/* ---------------------------------------------------------------
+   20. RESPONSIVE — TABLET (700px – 999px)
+   --------------------------------------------------------------- */
+@media (min-width: 700px) and (max-width: 999px) {
+
+  .spa-key-specs {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 0.5rem;
+  }
+
+  .spa-highlights-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* BMW-style hero button gap — scoped to homepage slideshow only */
+#shopify-section-slideshow .button-group { gap: 0.75rem; }
 
 /* Mobile: stack buttons full-width like BMW */
 @media (max-width: 699px) {
