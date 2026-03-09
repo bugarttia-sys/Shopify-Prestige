@@ -837,4 +837,5 @@
 }
 
 
+/* BMW-style hero button gap — scoped to homepage slideshow only */
 #shopify-section-slideshow .button-group { gap: 0.75rem; }
