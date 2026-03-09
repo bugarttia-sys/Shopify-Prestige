@@ -835,3 +835,6 @@
     grid-template-columns: repeat(2, 1fr);
   }
 }
+
+
+#shopify-section-slideshow .button-group { gap: 0.75rem; }
