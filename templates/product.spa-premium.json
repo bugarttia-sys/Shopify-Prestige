@@ -75,7 +75,7 @@
         "reveal_on_scroll": false,
         "remove_vertical_spacing": true,
         "content_width": "sm",
-        "mobile_text_position": "place-self-center-start text-start",
+        "mobile_text_position": "place-self-end-start text-start",
         "desktop_text_position": "sm:place-self-center-start sm:text-start",
         "overlay_color": "#000000",
         "overlay_opacity": 30
