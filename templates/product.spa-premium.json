@@ -28,13 +28,13 @@
         "hero_richtext": {
           "type": "liquid",
           "settings": {
-            "liquid": "{% assign tagline = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value %}{% if tagline %}<p>{{ tagline }}<\/p>{% else %}<p>The Ultimate Hydrotherapy Experience<\/p>{% endif %}"
+            "liquid": "{% assign tagline = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value %}{% if tagline %}<p>{{ tagline }}</p>{% else %}<p>The Ultimate Hydrotherapy Experience</p>{% endif %}"
           }
         },
         "hero_button_css": {
           "type": "liquid",
           "settings": {
-            "liquid": "<style>#shopify-section-{{ section.id }} .prose .button + .button { display: inline-flex; margin-block-start: 0; margin-inline-start: 0.75rem; } @media (max-width: 699px) { #shopify-section-{{ section.id }} .prose .button { display: flex !important; width: 100% !important; justify-content: center !important; } #shopify-section-{{ section.id }} .prose .button + .button { margin-inline-start: 0 !important; margin-block-start: 0.5rem !important; } } #shopify-section-{{ section.id }} .prose .button:has(+ .button) { display: inline-flex; }<\/style>"
+            "liquid": "<style>#shopify-section-{{ section.id }} .prose .button + .button { display: inline-flex; margin-block-start: 0; margin-inline-start: 0.75rem; } @media (max-width: 699px) { #shopify-section-{{ section.id }} .prose .button { display: flex !important; width: 100% !important; justify-content: center !important; } #shopify-section-{{ section.id }} .prose .button + .button { margin-inline-start: 0 !important; margin-block-start: 0.5rem !important; } } #shopify-section-{{ section.id }} .prose .button:has(+ .button) { display: inline-flex; }</style>"
           }
         },
         "hero_cta": {
@@ -377,70 +377,6 @@
         "remove_vertical_spacing": false
       }
     },
-    "custom_accordion_tabs_e9itHq": {
-      "type": "custom-accordion-tabs",
-      "blocks": {
-        "tab_qhkKx8": {
-          "type": "tab",
-          "settings": {
-            "title": "DESCRIPTION",
-            "icon": "picto-info",
-            "custom_svg": "",
-            "text_content": "<p>Add your product description or any text content here.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_efCdJA": {
-          "type": "tab",
-          "settings": {
-            "title": "TECHNICAL SPECIFICATIONS",
-            "icon": "picto-file",
-            "custom_svg": "",
-            "text_content": "<p>Add technical specifications or use the Custom Liquid field for metafields.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_Eezkjm": {
-          "type": "tab",
-          "settings": {
-            "title": "CONSTRUCTION & MATERIALS",
-            "icon": "picto-box",
-            "custom_svg": "",
-            "text_content": "<p>Describe the construction and materials used.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_QM8dpB": {
-          "type": "tab",
-          "settings": {
-            "title": "WARRANTY COVERAGE",
-            "icon": "picto-shield",
-            "custom_svg": "",
-            "text_content": "<p>Outline the warranty coverage details.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        }
-      },
-      "block_order": [
-        "tab_qhkKx8",
-        "tab_efCdJA",
-        "tab_Eezkjm",
-        "tab_QM8dpB"
-      ],
-      "name": "Accordion Tabs",
-      "settings": {
-        "color_scheme": "",
-        "separate_section_with_border": true,
-        "content_width": "md",
-        "subheading": "",
-        "title": "",
-        "content": ""
-      }
-    },
     "interior_story": {
       "type": "image-with-text-block",
       "blocks": {
@@ -461,70 +397,6 @@
         "content_width": "sm",
         "enable_parallax": true,
         "remove_vertical_spacing": false
-      }
-    },
-    "custom_accordion_tabs_RM3NcV": {
-      "type": "custom-accordion-tabs",
-      "blocks": {
-        "tab_Rr8xzt": {
-          "type": "tab",
-          "settings": {
-            "title": "DESCRIPTION",
-            "icon": "picto-timer",
-            "custom_svg": "",
-            "text_content": "<p>Add your product description or any text content here.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_QUDYEt": {
-          "type": "tab",
-          "settings": {
-            "title": "TECHNICAL SPECIFICATIONS",
-            "icon": "picto-file",
-            "custom_svg": "",
-            "text_content": "<p>Add technical specifications or use the Custom Liquid field for metafields.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_EmhzmB": {
-          "type": "tab",
-          "settings": {
-            "title": "CONSTRUCTION & MATERIALS",
-            "icon": "picto-box",
-            "custom_svg": "",
-            "text_content": "<p>Describe the construction and materials used.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_GPgyda": {
-          "type": "tab",
-          "settings": {
-            "title": "WARRANTY COVERAGE",
-            "icon": "picto-shield",
-            "custom_svg": "",
-            "text_content": "<p>Outline the warranty coverage details.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        }
-      },
-      "block_order": [
-        "tab_Rr8xzt",
-        "tab_QUDYEt",
-        "tab_EmhzmB",
-        "tab_GPgyda"
-      ],
-      "name": "Accordion Tabs",
-      "settings": {
-        "color_scheme": "",
-        "separate_section_with_border": true,
-        "content_width": "md",
-        "subheading": "",
-        "title": "",
-        "content": ""
       }
     },
     "technology_story": {
@@ -569,70 +441,6 @@
         "content_width": "sm",
         "text_position": "center",
         "remove_vertical_spacing": false
-      }
-    },
-    "custom_accordion_tabs_Hfw39V": {
-      "type": "custom-accordion-tabs",
-      "blocks": {
-        "tab_hne4nh": {
-          "type": "tab",
-          "settings": {
-            "title": "DESCRIPTION",
-            "icon": "picto-customer-support",
-            "custom_svg": "",
-            "text_content": "<p>Add your product description or any text content here.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_EQzYUU": {
-          "type": "tab",
-          "settings": {
-            "title": "TECHNICAL SPECIFICATIONS",
-            "icon": "picto-file",
-            "custom_svg": "",
-            "text_content": "<p>Add technical specifications or use the Custom Liquid field for metafields.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_npKrXe": {
-          "type": "tab",
-          "settings": {
-            "title": "CONSTRUCTION & MATERIALS",
-            "icon": "picto-box",
-            "custom_svg": "",
-            "text_content": "<p>Describe the construction and materials used.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        },
-        "tab_p4GVKQ": {
-          "type": "tab",
-          "settings": {
-            "title": "WARRANTY COVERAGE",
-            "icon": "picto-shield",
-            "custom_svg": "",
-            "text_content": "<p>Outline the warranty coverage details.</p>",
-            "liquid": "",
-            "open_by_default": false
-          }
-        }
-      },
-      "block_order": [
-        "tab_hne4nh",
-        "tab_EQzYUU",
-        "tab_npKrXe",
-        "tab_p4GVKQ"
-      ],
-      "name": "Accordion Tabs",
-      "settings": {
-        "color_scheme": "",
-        "separate_section_with_border": true,
-        "content_width": "md",
-        "subheading": "",
-        "title": "",
-        "content": ""
       }
     },
     "hydrotherapy_detail": {
@@ -927,12 +735,9 @@
     "exterior_gallery",
     "design_scroll",
     "therapies_section",
-    "custom_accordion_tabs_e9itHq",
     "interior_story",
-    "custom_accordion_tabs_RM3NcV",
     "technology_story",
     "proprietary_features",
-    "custom_accordion_tabs_Hfw39V",
     "hydrotherapy_detail",
     "energy_detail",
     "water_care_detail",
