@@ -15,7 +15,7 @@
         "hero_subheading": {
           "type": "subheading",
           "settings": {
-            "text": "Grand Master Spas"
+            "text": "GRAND MASTER SPAS"
           }
         },
         "hero_heading": {
@@ -28,17 +28,23 @@
         "hero_richtext": {
           "type": "liquid",
           "settings": {
-            "liquid": "{% assign tagline = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value %}{% if tagline %}<p>{{ tagline }}</p>{% else %}<p>Precision hydrotherapy engineered for your wellbeing.</p>{% endif %}"
+            "liquid": "{% assign tagline = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value %}{% if tagline %}<p>{{ tagline }}<\/p>{% else %}<p>The Ultimate Hydrotherapy Experience<\/p>{% endif %}"
+          }
+        },
+        "hero_button_css": {
+          "type": "liquid",
+          "settings": {
+            "liquid": "<style>#shopify-section-{{ section.id }} .prose .button + .button { display: inline-flex; margin-block-start: 0; } #shopify-section-{{ section.id }} .prose .button:has(+ .button) { display: inline-flex; }<\/style>"
           }
         },
         "hero_cta": {
           "type": "button",
           "settings": {
-            "style": "outline",
+            "style": "solid",
             "text": "Explore",
             "url": "#product-overview",
-            "background": "",
-            "text_color": ""
+            "background": "#1c69d4",
+            "text_color": "#ffffff"
           }
         },
         "hero_cta2": {
@@ -56,6 +62,7 @@
         "hero_subheading",
         "hero_heading",
         "hero_richtext",
+        "hero_button_css",
         "hero_cta",
         "hero_cta2"
       ],
@@ -68,8 +75,8 @@
         "reveal_on_scroll": false,
         "remove_vertical_spacing": true,
         "content_width": "sm",
-        "mobile_text_position": "place-self-end-center",
-        "desktop_text_position": "place-self-end-center",
+        "mobile_text_position": "place-self-center-start text-start",
+        "desktop_text_position": "sm:place-self-center-start sm:text-start",
         "overlay_color": "#000000",
         "overlay_opacity": 30
       }
