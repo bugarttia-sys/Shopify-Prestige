@@ -17,13 +17,13 @@
     "success_color": "#307a07",
     "warning_color": "#ed8a00",
     "error_color": "#cb2b2b",
-    "heading_font": "inter_n4",
-    "heading_letter_spacing": 2,
-    "text_font": "inter_n4",
-    "text_font_size_mobile": 15,
-    "text_font_size_desktop": 16,
+    "heading_font": "instrument_sans_n4",
+    "heading_letter_spacing": 18,
+    "text_font": "nunito_n4",
+    "text_font_size_mobile": 14,
+    "text_font_size_desktop": 14,
     "button_text_font": "heading",
-    "button_letter_spacing": 4,
+    "button_letter_spacing": 18,
     "content_for_index": [],
     "color_schemes": {
       "scheme-1": {
@@ -31,7 +31,7 @@
           "background": "#ffffff",
           "background_gradient": "",
           "text_color": "#1c1c1c",
-          "primary_button_background": "#1c1c1c",
+          "primary_button_background": "#C68A1F",
           "primary_button_text_color": "#ffffff",
           "circle_button_background": "#ffffff",
           "circle_button_icon": "#1c1c1c"
@@ -52,9 +52,9 @@
         "settings": {
           "background": "#1c1c1c",
           "background_gradient": "",
-          "text_color": "#ffffff",
-          "primary_button_background": "#ffffff",
-          "primary_button_text_color": "#1c1c1c",
+          "text_color": "#F3F1EC",
+          "primary_button_background": "#C68A1F",
+          "primary_button_text_color": "#ffffff",
           "circle_button_background": "#ffffff",
           "circle_button_icon": "#1c1c1c"
         }
@@ -64,13 +64,15 @@
           "background": "rgba(0,0,0,0)",
           "background_gradient": "",
           "text_color": "#ffffff",
-          "primary_button_background": "#ffffff",
-          "primary_button_text_color": "#1c1c1c",
+          "primary_button_background": "#C68A1F",
+          "primary_button_text_color": "#ffffff",
           "circle_button_background": "#ffffff",
           "circle_button_icon": "#1c1c1c"
         }
       }
-    }
+    },
+    "on_sale_accent": "#D63A3A",
+    "custom_badge_color": "#2A9BC7"
   },
   "installed_preset_name": "Prestige",
   "presets": {
