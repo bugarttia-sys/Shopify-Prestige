@@ -71,7 +71,7 @@
   font-size: clamp(0.9rem, 1.2vw, 1.1rem);
   opacity: 0.8;
   max-width: 32ch;
-  margin-inline: auto;
+  margin-inline: 0;
 }
 
 
