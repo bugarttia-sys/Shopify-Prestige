@@ -12,7 +12,7 @@
     "slideshow": {
       "type": "slideshow",
       "blocks": {
-        "slide-bmw-hero": {
+        "slide-premium-hero": {
           "type": "image",
           "settings": {
             "image": "shopify://shop_images/Grandmasterspas_hero.jpg",
@@ -41,7 +41,7 @@
         }
       },
       "block_order": [
-        "slide-bmw-hero"
+        "slide-premium-hero"
       ],
       "settings": {
         "allow_transparent_header": true,
