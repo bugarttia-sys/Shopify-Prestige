@@ -1,5 +1,5 @@
 /* =====================================================================
-   GRAND MASTER SPAS — BMW-LEVEL PREMIUM UX OVERRIDES  (v5 — block fix)
+   GRAND MASTER SPAS — PREMIUM UX OVERRIDES  (v5 — block fix)
    Theme: Prestige by Maestrooo
    Load: After theme.css via assets/custom.css or Shopify admin
    ===================================================================== */
@@ -9,8 +9,8 @@
    0. DESIGN TOKENS
    --------------------------------------------------------------- */
 :root {
-  --gms-gold:        #C9A96E;
-  --gms-gold-light:  #E4D5B7;
+  --gms-gold:        #C68A1F;
+  --gms-gold-light:  #D6A243;
   --gms-charcoal:    #1A1A1A;
   --gms-slate:       #2C2C2C;
   --gms-mid-grey:    #6B7280;
@@ -76,7 +76,7 @@
 
 
 /* ---------------------------------------------------------------
-   2. STORYTELLING BANNERS — BMW-stijl (alle volgende overlays)
+   2. STORYTELLING BANNERS — Premium storytelling overlays
    Tekst links-onderaan, geen achtergrondbox, gradient van links.
    --------------------------------------------------------------- */
 .shopify-section--image-with-text-overlay:not(:first-of-type) .content-over-media {
@@ -580,7 +580,7 @@
 
 
 /* ---------------------------------------------------------------
-   13. IMAGE WITH TEXT BLOCK — BMW-stijl positionering
+   13. IMAGE WITH TEXT BLOCK — Premium positionering
    Content gecentreerd-links, geen achtergrondbox, tekst links.
    Werkt voor alle image-with-text-block secties sitebreed.
    --------------------------------------------------------------- */
@@ -836,10 +836,10 @@
   }
 }
 
-/* BMW-style hero button gap — scoped to homepage slideshow only */
+/* Premium hero button gap — scoped to homepage slideshow only */
 #shopify-section-slideshow .button-group { gap: 0.75rem; }
 
-/* Mobile: stack buttons full-width like BMW */
+/* Mobile: stack buttons full-width */
 @media (max-width: 699px) {
   #shopify-section-slideshow .button-group {
     display: flex !important;
