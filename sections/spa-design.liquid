@@ -1,7 +1,8 @@
 {%- comment -%}
-  SPA DESIGN — Shell color & cabinet finish selector with live preview
-  Uses: product.metafields.design.shell_colors (json list of {name, hex, image})
-        product.metafields.design.cabinet_finishes (json list of {name, hex, image})
+  SPA DESIGN — Design & Craftsmanship showcase with configurator
+  Anchored as #spa-design in the page nav
+  Uses: product.metafields.design.shell_colors (json)
+        product.metafields.design.cabinet_finishes (json)
         product.metafields.media.design_default
 {%- endcomment -%}
 
@@ -13,116 +14,129 @@
 
 <style>
   #shopify-section-{{ section.id }} .spa-design {
-    padding: clamp(3rem, 5vw, 5rem) 0;
+    background: #f7f7f7;
+    color: var(--gms-charcoal, #1A1A1A);
   }
 
-  #shopify-section-{{ section.id }} .spa-design__container {
-    max-width: var(--container-lg-max-width, 1200px);
-    margin-inline: auto;
-    padding-inline: var(--container-gutter, 1.25rem);
-  }
-
+  /* ── Header ── */
   #shopify-section-{{ section.id }} .spa-design__header {
     text-align: center;
-    margin-bottom: clamp(2rem, 3vw, 3rem);
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 4vw, 3rem) clamp(2rem, 4vw, 4rem);
   }
 
-  #shopify-section-{{ section.id }} .spa-design__label {
-    font-size: 0.65rem;
+  #shopify-section-{{ section.id }} .spa-design__eyebrow {
+    font-size: 0.62rem;
     font-weight: 600;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--gms-gold, #C68A1F);
-    opacity: 0.9;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
   }
 
   #shopify-section-{{ section.id }} .spa-design__heading {
-    font-size: clamp(1.5rem, 3vw, 2.25rem);
-    font-weight: 300;
-    letter-spacing: -0.01em;
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 200;
+    letter-spacing: -0.025em;
+    line-height: 1.1;
     margin: 0;
   }
 
-  /* --- Layout: preview + controls --- */
-  #shopify-section-{{ section.id }} .spa-design__layout {
+  #shopify-section-{{ section.id }} .spa-design__heading::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--gms-gold, #C68A1F);
+    margin: 1.25rem auto 0;
+  }
+
+  /* ── Configurator layout ── */
+  #shopify-section-{{ section.id }} .spa-design__config {
     display: grid;
-    grid-template-columns: 1.2fr 0.8fr;
+    grid-template-columns: 1.3fr 0.7fr;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(4rem, 6vw, 6rem);
     gap: clamp(2rem, 4vw, 4rem);
     align-items: start;
   }
 
+  /* ── Preview ── */
   #shopify-section-{{ section.id }} .spa-design__preview {
     position: relative;
-    border-radius: var(--gms-radius, 2px);
-    overflow: hidden;
     aspect-ratio: 4 / 3;
-    background: var(--gms-light-grey, #F5F5F5);
+    overflow: hidden;
+    background: #eee;
   }
 
   #shopify-section-{{ section.id }} .spa-design__preview img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: opacity 0.5s ease;
+    transition: opacity 0.6s ease;
   }
 
-  #shopify-section-{{ section.id }} .spa-design__selected-label {
+  #shopify-section-{{ section.id }} .spa-design__preview-badge {
     position: absolute;
-    bottom: 1rem;
-    left: 1rem;
-    background: rgba(0,0,0,0.7);
+    bottom: 1.25rem;
+    left: 1.25rem;
+    background: rgba(0,0,0,0.75);
     color: #fff;
-    font-size: 0.7rem;
-    font-weight: 600;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    padding: 0.4em 0.8em;
-    border-radius: 100px;
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-  }
-
-  /* --- Controls panel --- */
-  #shopify-section-{{ section.id }} .spa-design__controls {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-  }
-
-  #shopify-section-{{ section.id }} .spa-design__group-title {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     font-weight: 600;
     letter-spacing: 0.12em;
     text-transform: uppercase;
-    opacity: 0.55;
-    margin-bottom: 0.75rem;
+    padding: 0.5em 1em;
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+
+  /* ── Controls ── */
+  #shopify-section-{{ section.id }} .spa-design__controls {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-design__group-label {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.4;
+    margin-bottom: 1rem;
   }
 
   #shopify-section-{{ section.id }} .spa-design__swatches {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-design__swatch-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.4rem;
   }
 
   #shopify-section-{{ section.id }} .spa-design__swatch {
-    width: 44px;
-    height: 44px;
+    width: 48px;
+    height: 48px;
     border-radius: 50%;
     border: 2px solid transparent;
-    cursor: pointer;
-    transition: all 0.25s ease;
-    position: relative;
-    overflow: hidden;
     padding: 0;
     background: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
   }
 
-  #shopify-section-{{ section.id }} .spa-design__swatch-inner {
+  #shopify-section-{{ section.id }} .spa-design__swatch-fill {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #fff;
+    border: 3px solid #fff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
   }
 
   #shopify-section-{{ section.id }} .spa-design__swatch:hover {
@@ -131,136 +145,106 @@
 
   #shopify-section-{{ section.id }} .spa-design__swatch[aria-selected="true"] {
     border-color: var(--gms-gold, #C68A1F);
-    box-shadow: 0 0 0 1px var(--gms-gold, #C68A1F);
   }
 
   #shopify-section-{{ section.id }} .spa-design__swatch-name {
-    display: block;
-    font-size: 0.72rem;
-    text-align: center;
-    margin-top: 0.35rem;
-    opacity: 0.6;
+    font-size: 0.62rem;
+    opacity: 0.5;
+    letter-spacing: 0.02em;
   }
 
-  #shopify-section-{{ section.id }} .spa-design__swatch-wrap {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-  }
-
-  /* --- Summary --- */
+  /* ── Summary ── */
   #shopify-section-{{ section.id }} .spa-design__summary {
-    padding-top: 1.5rem;
-    border-top: 1px solid var(--gms-border, rgba(0,0,0,0.06));
-    font-size: 0.85rem;
-    line-height: 1.6;
+    padding-top: 2rem;
+    border-top: 1px solid rgba(0,0,0,0.06);
   }
 
   #shopify-section-{{ section.id }} .spa-design__summary-row {
     display: flex;
     justify-content: space-between;
-    padding: 0.4rem 0;
+    padding: 0.5rem 0;
+    font-size: 0.82rem;
   }
 
   #shopify-section-{{ section.id }} .spa-design__summary-label {
-    opacity: 0.55;
+    opacity: 0.4;
+    font-weight: 300;
   }
 
   #shopify-section-{{ section.id }} .spa-design__summary-value {
     font-weight: 600;
+    letter-spacing: 0.02em;
   }
 
   @media (max-width: 699px) {
-    #shopify-section-{{ section.id }} .spa-design__layout {
+    #shopify-section-{{ section.id }} .spa-design__config {
       grid-template-columns: 1fr;
     }
 
     #shopify-section-{{ section.id }} .spa-design__swatch {
-      width: 38px;
-      height: 38px;
+      width: 40px;
+      height: 40px;
     }
   }
 </style>
 
-<section id="product-configure" class="spa-design" aria-label="Configure your spa">
-  <div class="spa-design__container">
-    <div class="spa-design__header">
-      <p class="spa-design__label">{{ section.settings.label | default: 'Configure' }}</p>
-      <h2 class="spa-design__heading">{{ section.settings.heading | default: 'Make it yours.' }}</h2>
+<section class="spa-design" id="spa-design" aria-label="Design and configuration">
+  <div class="spa-design__header">
+    <p class="spa-design__eyebrow">{{ section.settings.eyebrow | default: 'Design & Craftsmanship' }}</p>
+    <h2 class="spa-design__heading">{{ section.settings.heading | default: 'Make it yours.' }}</h2>
+  </div>
+
+  <div class="spa-design__config" id="spa-configure">
+    <div class="spa-design__preview">
+      {%- if default_img != blank -%}
+        {{ default_img | image_url: width: 1200 | image_tag: loading: 'lazy', id: 'spa-design-img-' | append: section.id, sizes: '(min-width: 700px) 60vw, 100vw', widths: '400,600,800,1000,1200', alt: product.title | append: ' configuration' }}
+      {%- else -%}
+        {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+      {%- endif -%}
+      <span class="spa-design__preview-badge" id="spa-design-badge-{{ section.id }}">Select a finish</span>
     </div>
 
-    <div class="spa-design__layout">
-      {%- comment -%} Preview image {%- endcomment -%}
-      <div class="spa-design__preview">
-        {%- if default_img != blank -%}
-          {{ default_img | image_url: width: 1200 | image_tag: loading: 'lazy', id: 'spa-design-preview-img-' | append: section.id, sizes: '(min-width: 700px) 55vw, 100vw', widths: '400,600,800,1000,1200', alt: product.title | append: ' configuration' }}
-        {%- else -%}
-          {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
-        {%- endif -%}
-        <span class="spa-design__selected-label" id="spa-design-selected-label-{{ section.id }}">Select a finish</span>
-      </div>
-
-      {%- comment -%} Controls {%- endcomment -%}
-      <div class="spa-design__controls">
-
-        {%- if shell_colors != blank and shell_colors.size > 0 -%}
-          <div>
-            <p class="spa-design__group-title">Shell Color</p>
-            <div class="spa-design__swatches" role="radiogroup" aria-label="Shell color">
-              {%- for color in shell_colors -%}
-                <div class="spa-design__swatch-wrap">
-                  <button
-                    class="spa-design__swatch"
-                    role="radio"
-                    aria-selected="false"
-                    aria-label="{{ color.name }}"
-                    data-swatch-type="shell"
-                    data-swatch-name="{{ color.name }}"
-                    {%- if color.image -%}data-swatch-image="{{ color.image | image_url: width: 1200 }}"{%- endif -%}
-                  >
-                    <span class="spa-design__swatch-inner" style="background-color: {{ color.hex | default: '#ccc' }}"></span>
-                  </button>
-                  <span class="spa-design__swatch-name">{{ color.name }}</span>
-                </div>
-              {%- endfor -%}
-            </div>
+    <div class="spa-design__controls">
+      {%- if shell_colors != blank and shell_colors.size > 0 -%}
+        <div>
+          <p class="spa-design__group-label">Shell Colour</p>
+          <div class="spa-design__swatches" role="radiogroup" aria-label="Shell colour">
+            {%- for color in shell_colors -%}
+              <div class="spa-design__swatch-wrap">
+                <button class="spa-design__swatch" role="radio" aria-selected="false" aria-label="{{ color.name }}" data-type="shell" data-name="{{ color.name }}" {%- if color.image %}data-image="{{ color.image | image_url: width: 1200 }}"{% endif %}>
+                  <span class="spa-design__swatch-fill" style="background:{{ color.hex | default: '#ccc' }}"></span>
+                </button>
+                <span class="spa-design__swatch-name">{{ color.name }}</span>
+              </div>
+            {%- endfor -%}
           </div>
-        {%- endif -%}
+        </div>
+      {%- endif -%}
 
-        {%- if cabinets != blank and cabinets.size > 0 -%}
-          <div>
-            <p class="spa-design__group-title">Cabinet Finish</p>
-            <div class="spa-design__swatches" role="radiogroup" aria-label="Cabinet finish">
-              {%- for cab in cabinets -%}
-                <div class="spa-design__swatch-wrap">
-                  <button
-                    class="spa-design__swatch"
-                    role="radio"
-                    aria-selected="false"
-                    aria-label="{{ cab.name }}"
-                    data-swatch-type="cabinet"
-                    data-swatch-name="{{ cab.name }}"
-                    {%- if cab.image -%}data-swatch-image="{{ cab.image | image_url: width: 1200 }}"{%- endif -%}
-                  >
-                    <span class="spa-design__swatch-inner" style="background-color: {{ cab.hex | default: '#8B7355' }}"></span>
-                  </button>
-                  <span class="spa-design__swatch-name">{{ cab.name }}</span>
-                </div>
-              {%- endfor -%}
-            </div>
+      {%- if cabinets != blank and cabinets.size > 0 -%}
+        <div>
+          <p class="spa-design__group-label">Cabinet Finish</p>
+          <div class="spa-design__swatches" role="radiogroup" aria-label="Cabinet finish">
+            {%- for cab in cabinets -%}
+              <div class="spa-design__swatch-wrap">
+                <button class="spa-design__swatch" role="radio" aria-selected="false" aria-label="{{ cab.name }}" data-type="cabinet" data-name="{{ cab.name }}" {%- if cab.image %}data-image="{{ cab.image | image_url: width: 1200 }}"{% endif %}>
+                  <span class="spa-design__swatch-fill" style="background:{{ cab.hex | default: '#8B7355' }}"></span>
+                </button>
+                <span class="spa-design__swatch-name">{{ cab.name }}</span>
+              </div>
+            {%- endfor -%}
           </div>
-        {%- endif -%}
+        </div>
+      {%- endif -%}
 
-        {%- comment -%} Selection summary {%- endcomment -%}
-        <div class="spa-design__summary">
-          <div class="spa-design__summary-row">
-            <span class="spa-design__summary-label">Shell</span>
-            <span class="spa-design__summary-value" id="spa-design-shell-value-{{ section.id }}">—</span>
-          </div>
-          <div class="spa-design__summary-row">
-            <span class="spa-design__summary-label">Cabinet</span>
-            <span class="spa-design__summary-value" id="spa-design-cabinet-value-{{ section.id }}">—</span>
-          </div>
+      <div class="spa-design__summary">
+        <div class="spa-design__summary-row">
+          <span class="spa-design__summary-label">Shell</span>
+          <span class="spa-design__summary-value" id="spa-design-shell-{{ section.id }}">—</span>
+        </div>
+        <div class="spa-design__summary-row">
+          <span class="spa-design__summary-label">Cabinet</span>
+          <span class="spa-design__summary-value" id="spa-design-cabinet-{{ section.id }}">—</span>
         </div>
       </div>
     </div>
@@ -269,35 +253,22 @@
 
 <script>
   (function() {
-    var section = document.querySelector('#shopify-section-{{ section.id }}');
-    if (!section) return;
+    var s = document.querySelector('#shopify-section-{{ section.id }}');
+    if (!s) return;
+    var img = s.querySelector('#spa-design-img-{{ section.id }}');
+    var badge = s.querySelector('#spa-design-badge-{{ section.id }}');
+    var shellVal = s.querySelector('#spa-design-shell-{{ section.id }}');
+    var cabVal = s.querySelector('#spa-design-cabinet-{{ section.id }}');
 
-    var previewImg = section.querySelector('#spa-design-preview-img-{{ section.id }}');
-    var selectedLabel = section.querySelector('#spa-design-selected-label-{{ section.id }}');
-    var shellValue = section.querySelector('#spa-design-shell-value-{{ section.id }}');
-    var cabinetValue = section.querySelector('#spa-design-cabinet-value-{{ section.id }}');
-
-    section.querySelectorAll('.spa-design__swatch').forEach(function(btn) {
+    s.querySelectorAll('.spa-design__swatch').forEach(function(btn) {
       btn.addEventListener('click', function() {
-        var type = btn.dataset.swatchType;
-        var name = btn.dataset.swatchName;
-        var image = btn.dataset.swatchImage;
-
         var group = btn.closest('[role="radiogroup"]');
-        group.querySelectorAll('[role="radio"]').forEach(function(r) {
-          r.setAttribute('aria-selected', 'false');
-        });
-        btn.setAttribute('aria-selected', 'true');
-
-        if (image && previewImg) {
-          previewImg.src = image;
-          previewImg.srcset = '';
-        }
-
-        if (selectedLabel) selectedLabel.textContent = name;
-
-        if (type === 'shell' && shellValue) shellValue.textContent = name;
-        if (type === 'cabinet' && cabinetValue) cabinetValue.textContent = name;
+        group.querySelectorAll('[role="radio"]').forEach(function(r) { r.setAttribute('aria-selected','false'); });
+        btn.setAttribute('aria-selected','true');
+        if (btn.dataset.image && img) { img.src = btn.dataset.image; img.srcset = ''; }
+        if (badge) badge.textContent = btn.dataset.name;
+        if (btn.dataset.type === 'shell' && shellVal) shellVal.textContent = btn.dataset.name;
+        if (btn.dataset.type === 'cabinet' && cabVal) cabVal.textContent = btn.dataset.name;
       });
     });
   })();
@@ -305,15 +276,15 @@
 
 {% schema %}
 {
-  "name": "Spa Design Selector",
+  "name": "Spa Design",
   "tag": "section",
   "class": "shopify-section--spa-design",
   "settings": [
     {
       "type": "text",
-      "id": "label",
-      "label": "Section label",
-      "default": "Configure"
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Design & Craftsmanship"
     },
     {
       "type": "text",
@@ -324,7 +295,7 @@
   ],
   "presets": [
     {
-      "name": "Spa Design Selector"
+      "name": "Spa Design"
     }
   ]
 }
