@@ -1,0 +1,237 @@
+{%- comment -%}
+  SPA HERO — Full-viewport hero with metafield-driven content
+  Uses: product.metafields.media.hero_desktop / hero_mobile
+        product.metafields.content.hero_tagline
+        product.metafields.descriptors.subtitle
+        product.metafields.custom.primary_cta
+{%- endcomment -%}
+
+{%- liquid
+  assign hero_img    = product.metafields.media.hero_desktop.value | default: product.featured_image
+  assign hero_mobile = product.metafields.media.hero_mobile.value
+  assign tagline     = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value | default: 'The Ultimate Hydrotherapy Experience'
+  assign cta_text    = product.metafields.custom.primary_cta.value | default: section.settings.cta_text
+  assign cta_url     = section.settings.cta_url | default: '#product-overview'
+  assign cta2_text   = section.settings.cta2_text
+  assign cta2_url    = section.settings.cta2_url | default: '#product-configure'
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} {
+    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero {
+    position: relative;
+    min-height: 100vh;
+    min-height: 100dvh;
+    display: grid;
+    place-items: end start;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__media {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgba(0, 0, 0, calc(0.35 + var(--overlay-opacity))) 0%,
+      rgba(0, 0, 0, var(--overlay-opacity)) 40%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__content {
+    position: relative;
+    z-index: 2;
+    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem);
+    max-width: 640px;
+    color: #fff;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__brand {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__title {
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 0 0 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__tagline {
+    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
+    opacity: 0.8;
+    max-width: 32ch;
+    margin: 0 0 1.5rem;
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85em 2em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: var(--gms-radius, 2px);
+    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__btn--solid {
+    background: var(--gms-gold, #C68A1F);
+    color: #fff;
+    border: 2px solid var(--gms-gold, #C68A1F);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__btn--solid:hover {
+    background: var(--gms-gold-light, #D6A243);
+    border-color: var(--gms-gold-light, #D6A243);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__btn--outline {
+    background: transparent;
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.5);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__btn--outline:hover {
+    border-color: #fff;
+  }
+
+  @media (max-width: 699px) {
+    #shopify-section-{{ section.id }} .spa-hero__actions {
+      flex-direction: column;
+    }
+
+    #shopify-section-{{ section.id }} .spa-hero__btn {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+</style>
+
+<section class="spa-hero" aria-label="Product hero" {% if section.settings.allow_transparent_header %}allow-transparent-header{% endif %}>
+  <div class="spa-hero__media">
+    {%- if hero_img != blank -%}
+      <picture>
+        {%- if hero_mobile != blank -%}
+          <source
+            media="(max-width: 699px)"
+            srcset="{{ hero_mobile | image_url: width: 400 }} 400w, {{ hero_mobile | image_url: width: 600 }} 600w, {{ hero_mobile | image_url: width: 800 }} 800w, {{ hero_mobile | image_url: width: 1000 }} 1000w"
+            width="{{ hero_mobile.width }}"
+            height="{{ hero_mobile.height }}"
+          >
+        {%- endif -%}
+        {{ hero_img | image_url: width: hero_img.width | image_tag: loading: 'eager', fetchpriority: 'high', sizes: '100vw', widths: '600,900,1200,1600,2000,2400,2800,3200', alt: product.title }}
+      </picture>
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' | replace: '<svg', '<svg preserveAspectRatio="xMinYMin slice"' }}
+    {%- endif -%}
+  </div>
+
+  <div class="spa-hero__content">
+    <p class="spa-hero__brand">{{ section.settings.brand_text | default: product.vendor }}</p>
+    <h1 class="spa-hero__title">{{ product.title }}</h1>
+    <p class="spa-hero__tagline">{{ tagline }}</p>
+
+    <div class="spa-hero__actions">
+      {%- if cta_text != blank -%}
+        <a href="{{ cta_url }}" class="spa-hero__btn spa-hero__btn--solid">{{ cta_text }}</a>
+      {%- endif -%}
+      {%- if cta2_text != blank -%}
+        <a href="{{ cta2_url }}" class="spa-hero__btn spa-hero__btn--outline">{{ cta2_text }}</a>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spa Hero",
+  "tag": "section",
+  "class": "shopify-section--spa-hero",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "allow_transparent_header",
+      "label": "Allow transparent header",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "brand_text",
+      "label": "Brand text",
+      "default": "GRAND MASTER SPAS"
+    },
+    {
+      "type": "text",
+      "id": "cta_text",
+      "label": "Primary CTA text",
+      "default": "Explore"
+    },
+    {
+      "type": "url",
+      "id": "cta_url",
+      "label": "Primary CTA link"
+    },
+    {
+      "type": "text",
+      "id": "cta2_text",
+      "label": "Secondary CTA text",
+      "default": "Configure & Price"
+    },
+    {
+      "type": "url",
+      "id": "cta2_url",
+      "label": "Secondary CTA link"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 30,
+      "unit": "%"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Hero"
+    }
+  ]
+}
+{% endschema %}

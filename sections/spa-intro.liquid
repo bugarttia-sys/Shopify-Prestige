@@ -1,0 +1,188 @@
+{%- comment -%}
+  SPA INTRO — At-a-glance stats bar + product info
+  Uses: product.metafields.specs.*
+        product.metafields.warranty.*
+        product.metafields.descriptors.subtitle
+        product.metafields.content.summary
+{%- endcomment -%}
+
+{%- liquid
+  assign specs   = product.metafields.specs
+  assign warranty = product.metafields.warranty
+  assign subtitle = product.metafields.descriptors.subtitle.value
+  assign summary  = product.metafields.content.summary.value
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .spa-intro {
+    padding: clamp(2rem, 4vw, 4rem) 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__container {
+    max-width: var(--container-lg-max-width, 1200px);
+    margin-inline: auto;
+    padding-inline: var(--container-gutter, 1.25rem);
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__stats {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto auto;
+    column-gap: 0.5rem;
+    text-align: center;
+    padding: 2rem 0;
+    border-top: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    border-bottom: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__stat {
+    grid-row: span 3;
+    display: grid;
+    grid-template-rows: subgrid;
+    justify-items: center;
+    position: relative;
+    padding: 0 1.5rem;
+  }
+
+  {%- if section.settings.show_dividers -%}
+  #shopify-section-{{ section.id }} .spa-intro__stat:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 10%;
+    height: 80%;
+    width: 1px;
+    background: var(--gms-border, rgba(0,0,0,0.06));
+  }
+  {%- endif -%}
+
+  #shopify-section-{{ section.id }} .spa-intro__value {
+    font-size: 1.75rem;
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.03em;
+    align-self: end;
+    padding-bottom: 0.15rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__value small {
+    font-size: 0.5em;
+    opacity: 0.4;
+    margin: 0 0.08em;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__label {
+    font-size: 0.6rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    opacity: 0.55;
+    align-self: center;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__sub {
+    font-size: 0.72rem;
+    opacity: 0.5;
+    margin-top: 0.15rem;
+    align-self: start;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__body {
+    max-width: 60ch;
+    margin: 2rem auto 0;
+    text-align: center;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__subtitle {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    letter-spacing: 0.015em;
+    font-style: italic;
+    margin-bottom: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-intro__summary {
+    font-size: 0.95rem;
+    line-height: 1.7;
+    opacity: 0.75;
+  }
+
+  @media (max-width: 699px) {
+    #shopify-section-{{ section.id }} .spa-intro__stats {
+      grid-template-columns: repeat(2, 1fr);
+      column-gap: 0.75rem;
+      padding: 1.25rem 0;
+    }
+
+    #shopify-section-{{ section.id }} .spa-intro__stat:not(:last-child)::after {
+      display: none;
+    }
+
+    #shopify-section-{{ section.id }} .spa-intro__stat:nth-child(n+3) .spa-intro__value {
+      padding-top: 1.25rem;
+    }
+
+    #shopify-section-{{ section.id }} .spa-intro__value {
+      font-size: 1.4rem;
+    }
+  }
+</style>
+
+<section id="product-overview" class="spa-intro" aria-label="Product overview">
+  <div class="spa-intro__container">
+    <div class="spa-intro__stats">
+      <div class="spa-intro__stat">
+        <span class="spa-intro__value">{{ specs.persons_capacity.value | default: '–' }}</span>
+        <span class="spa-intro__label">Persons</span>
+        <span class="spa-intro__sub">{{ specs.seats.value }} seats, {{ specs.loungers.value }} loungers</span>
+      </div>
+      <div class="spa-intro__stat">
+        <span class="spa-intro__value">{{ specs.total_jets.value | default: '–' }}</span>
+        <span class="spa-intro__label">Jets</span>
+        <span class="spa-intro__sub">{{ specs.hydro_jets.value }} hydro + {{ specs.air_jets.value }} air</span>
+      </div>
+      <div class="spa-intro__stat">
+        <span class="spa-intro__value">{{ specs.length_cm.value }}<small>&times;</small>{{ specs.width_cm.value }}</span>
+        <span class="spa-intro__label">cm (L&times;W)</span>
+        <span class="spa-intro__sub">{{ specs.height_cm.value }} cm height</span>
+      </div>
+      <div class="spa-intro__stat">
+        <span class="spa-intro__value">{{ warranty.structure_years.value | default: '–' }}</span>
+        <span class="spa-intro__label">Yr Warranty</span>
+        <span class="spa-intro__sub">Surface {{ warranty.surface_years.value }} yr &middot; Equipment {{ warranty.equipment_years.value }} yr</span>
+      </div>
+    </div>
+
+    {%- if subtitle != blank or summary != blank -%}
+      <div class="spa-intro__body">
+        {%- if subtitle != blank -%}
+          <p class="spa-intro__subtitle">{{ subtitle }}</p>
+        {%- endif -%}
+        {%- if summary != blank -%}
+          <p class="spa-intro__summary">{{ summary }}</p>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spa Intro",
+  "tag": "section",
+  "class": "shopify-section--spa-intro",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_dividers",
+      "label": "Show column dividers",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Intro"
+    }
+  ]
+}
+{% endschema %}

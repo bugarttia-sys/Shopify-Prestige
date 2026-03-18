@@ -1,0 +1,326 @@
+{%- comment -%}
+  SPA HYDROTHERAPY — Deep-dive into jet system, comfort, energy, water care
+  Uses: product.metafields.specs.total_jets / hydro_jets / air_jets / massage_pumps
+        product.metafields.features.comfort (list)
+        product.metafields.features.energy (list)
+        product.metafields.features.sanitation (list)
+        product.metafields.features.entertainment (list)
+        product.metafields.features.lighting (list)
+        product.metafields.features.optional (list)
+{%- endcomment -%}
+
+{%- liquid
+  assign specs = product.metafields.specs
+  assign comfort = product.metafields.features.comfort.value
+  assign energy = product.metafields.features.energy.value
+  assign sanitation = product.metafields.features.sanitation.value
+  assign entertainment = product.metafields.features.entertainment.value
+  assign lighting = product.metafields.features.lighting.value
+  assign connectivity = product.metafields.features.connectivity.value
+  assign optional = product.metafields.features.optional.value
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .spa-hydro {
+    padding: clamp(3rem, 5vw, 5rem) 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__container {
+    max-width: var(--container-lg-max-width, 1200px);
+    margin-inline: auto;
+    padding-inline: var(--container-gutter, 1.25rem);
+  }
+
+  /* --- Feature row: image + text --- */
+  #shopify-section-{{ section.id }} .spa-hydro__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(2rem, 4vw, 4rem);
+    align-items: center;
+    padding: clamp(2rem, 3vw, 3rem) 0;
+    border-bottom: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__row:last-child {
+    border-bottom: none;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__row--reverse {
+    direction: rtl;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__row--reverse > * {
+    direction: ltr;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__media img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 4 / 3;
+    object-fit: cover;
+    border-radius: var(--gms-radius, 2px);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__content {
+    max-width: 480px;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__label {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gms-gold, #C68A1F);
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__heading {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    font-weight: 300;
+    letter-spacing: -0.015em;
+    line-height: 1.15;
+    margin: 0 0 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__body {
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    line-height: 1.7;
+    opacity: 0.82;
+    max-width: 46ch;
+    margin: 0 0 1rem;
+  }
+
+  /* --- Pill list --- */
+  #shopify-section-{{ section.id }} .spa-hydro__pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__pill {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 500;
+    padding: 0.3em 0.85em;
+    border: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    border-radius: 100px;
+    letter-spacing: 0.01em;
+    transition: border-color 0.35s ease;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__pill:hover {
+    border-color: var(--gms-charcoal, #1A1A1A);
+  }
+
+  /* --- Stat callout --- */
+  #shopify-section-{{ section.id }} .spa-hydro__stat {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__stat-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    color: var(--gms-gold, #C68A1F);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__stat-detail {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.15rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__stat-label {
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.55;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__stat-sub {
+    font-size: 0.8rem;
+    opacity: 0.65;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hydro__upgrade-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin: 1rem 0 0.4rem;
+  }
+
+  @media (max-width: 699px) {
+    #shopify-section-{{ section.id }} .spa-hydro__row {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    #shopify-section-{{ section.id }} .spa-hydro__row--reverse {
+      direction: ltr;
+    }
+
+    #shopify-section-{{ section.id }} .spa-hydro__stat-number {
+      font-size: 2rem;
+    }
+  }
+</style>
+
+<section class="spa-hydro" aria-label="Hydrotherapy features">
+  <div class="spa-hydro__container">
+
+    {%- comment -%} ROW 1: Hydrotherapy System {%- endcomment -%}
+    <div class="spa-hydro__row">
+      <div class="spa-hydro__media">
+        {%- assign hydro_img = product.metafields.media.hydrotherapy.value | default: product.featured_image -%}
+        {%- if hydro_img != blank -%}
+          {{ hydro_img | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 700px) 50vw, 100vw', widths: '400,600,800,1000,1200', alt: 'Hydrotherapy system' }}
+        {%- else -%}
+          {{ 'product-1' | placeholder_svg_tag: 'placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="spa-hydro__content">
+        <p class="spa-hydro__label">Hydrotherapy System</p>
+        <div class="spa-hydro__stat">
+          <span class="spa-hydro__stat-number">{{ specs.total_jets.value | default: '–' }}</span>
+          <div class="spa-hydro__stat-detail">
+            <span class="spa-hydro__stat-label">Precision Jets</span>
+            <span class="spa-hydro__stat-sub">{{ specs.hydro_jets.value }} hydro + {{ specs.air_jets.value }} air</span>
+          </div>
+        </div>
+        <h3 class="spa-hydro__heading">Targeted relief. Total relaxation.</h3>
+        <p class="spa-hydro__body">{{ specs.total_jets.value }} precision jets powered by {{ specs.massage_pumps.value | default: product.metafields.pump.massage.value }} massage pumps deliver targeted hydrotherapy to every seat.</p>
+        {%- if comfort -%}
+          <ul class="spa-hydro__pills">
+            {%- for c in comfort -%}
+              <li class="spa-hydro__pill">{{ c }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ROW 2: Energy Management (reversed) {%- endcomment -%}
+    <div class="spa-hydro__row spa-hydro__row--reverse">
+      <div class="spa-hydro__media">
+        {%- assign energy_img = product.metafields.media.energy.value | default: product.featured_image -%}
+        {%- if energy_img != blank -%}
+          {{ energy_img | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 700px) 50vw, 100vw', widths: '400,600,800,1000,1200', alt: 'Energy management' }}
+        {%- else -%}
+          {{ 'product-2' | placeholder_svg_tag: 'placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="spa-hydro__content">
+        <p class="spa-hydro__label">Energy Management</p>
+        <h3 class="spa-hydro__heading">Intelligent insulation. Minimal running costs.</h3>
+        {%- if energy -%}
+          <ul class="spa-hydro__pills">
+            {%- for e in energy -%}
+              <li class="spa-hydro__pill">{{ e }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+        {%- if optional -%}
+          <p class="spa-hydro__upgrade-label">Optional upgrades</p>
+          <ul class="spa-hydro__pills">
+            {%- for o in optional -%}
+              <li class="spa-hydro__pill">{{ o }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ROW 3: Water Care {%- endcomment -%}
+    <div class="spa-hydro__row">
+      <div class="spa-hydro__media">
+        {%- assign water_img = product.metafields.media.water_care.value | default: product.featured_image -%}
+        {%- if water_img != blank -%}
+          {{ water_img | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 700px) 50vw, 100vw', widths: '400,600,800,1000,1200', alt: 'Water care system' }}
+        {%- else -%}
+          {{ 'product-3' | placeholder_svg_tag: 'placeholder' }}
+        {%- endif -%}
+      </div>
+      <div class="spa-hydro__content">
+        <p class="spa-hydro__label">Water Care</p>
+        <h3 class="spa-hydro__heading">Crystal clear. Minimal effort.</h3>
+        {%- if sanitation -%}
+          <ul class="spa-hydro__pills">
+            {%- for s in sanitation -%}
+              <li class="spa-hydro__pill">{{ s }}</li>
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- comment -%} ROW 4: Entertainment & Ambiance (reversed) {%- endcomment -%}
+    {%- if entertainment or lighting or connectivity -%}
+      <div class="spa-hydro__row spa-hydro__row--reverse">
+        <div class="spa-hydro__media">
+          {%- assign ent_img = product.metafields.media.entertainment.value | default: product.featured_image -%}
+          {%- if ent_img != blank -%}
+            {{ ent_img | image_url: width: 800 | image_tag: loading: 'lazy', sizes: '(min-width: 700px) 50vw, 100vw', widths: '400,600,800,1000,1200', alt: 'Entertainment system' }}
+          {%- else -%}
+            {{ 'product-4' | placeholder_svg_tag: 'placeholder' }}
+          {%- endif -%}
+        </div>
+        <div class="spa-hydro__content">
+          <p class="spa-hydro__label">Entertainment &amp; Ambiance</p>
+          <h3 class="spa-hydro__heading">Set the mood. Set the scene.</h3>
+          {%- if lighting -%}
+            <ul class="spa-hydro__pills">
+              {%- for l in lighting -%}
+                <li class="spa-hydro__pill">{{ l }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if entertainment -%}
+            <ul class="spa-hydro__pills" style="margin-top:0.5rem">
+              {%- for e in entertainment -%}
+                <li class="spa-hydro__pill">{{ e }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+          {%- if connectivity -%}
+            <ul class="spa-hydro__pills" style="margin-top:0.5rem">
+              {%- for c in connectivity -%}
+                <li class="spa-hydro__pill">{{ c }}</li>
+              {%- endfor -%}
+            </ul>
+          {%- endif -%}
+        </div>
+      </div>
+    {%- endif -%}
+
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spa Hydrotherapy",
+  "tag": "section",
+  "class": "shopify-section--spa-hydrotherapy",
+  "settings": [
+    {
+      "type": "checkbox",
+      "id": "show_entertainment",
+      "label": "Show entertainment row",
+      "default": true
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Hydrotherapy"
+    }
+  ]
+}
+{% endschema %}

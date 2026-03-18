@@ -1,0 +1,195 @@
+{%- comment -%}
+  SPA COMPARE — Full-width comparison CTA banner with overlay
+  Uses: product.metafields.media.compare_banner
+        product.metafields.product.collection_name
+{%- endcomment -%}
+
+{%- liquid
+  assign banner_img = product.metafields.media.compare_banner.value | default: product.metafields.media.design_story.value | default: product.featured_image
+  assign collection_name = product.metafields.product.collection_name.value | default: 'The Collection'
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .spa-compare {
+    position: relative;
+    min-height: clamp(40vh, 50vw, 60vh);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, {{ section.settings.overlay_opacity | default: 45 | divided_by: 100.0 }});
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    color: #fff;
+    padding: clamp(2rem, 5vw, 4rem);
+    max-width: 600px;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__overline {
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    opacity: 0.75;
+    margin-bottom: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__heading {
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 300;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0 0 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__body {
+    font-size: clamp(0.85rem, 1.1vw, 1rem);
+    line-height: 1.6;
+    opacity: 0.8;
+    margin: 0 0 1.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85em 2.5em;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-decoration: none;
+    background: var(--gms-gold, #C68A1F);
+    color: #fff;
+    border: 2px solid var(--gms-gold, #C68A1F);
+    border-radius: var(--gms-radius, 2px);
+    transition: all 0.35s ease;
+    cursor: pointer;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__btn:hover {
+    background: var(--gms-gold-light, #D6A243);
+    border-color: var(--gms-gold-light, #D6A243);
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__collection {
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.15);
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__collection-label {
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    margin-bottom: 0.35rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-compare__collection-name {
+    font-size: 1rem;
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+</style>
+
+<section class="spa-compare" aria-label="Compare models">
+  <div class="spa-compare__media">
+    {%- if banner_img != blank -%}
+      {{ banner_img | image_url: width: banner_img.width | image_tag: loading: 'lazy', sizes: '100vw', widths: '600,900,1200,1600,2000,2400', alt: 'Compare spa models' }}
+    {%- else -%}
+      {{ 'lifestyle-1' | placeholder_svg_tag: 'placeholder' | replace: '<svg', '<svg preserveAspectRatio="xMinYMin slice"' }}
+    {%- endif -%}
+  </div>
+
+  <div class="spa-compare__content">
+    <p class="spa-compare__overline">{{ section.settings.overline | default: 'Not sure which model?' }}</p>
+    <h2 class="spa-compare__heading">{{ section.settings.heading | default: 'Compare the full collection.' }}</h2>
+    <p class="spa-compare__body">{{ section.settings.body | default: 'Find the perfect spa for your space, lifestyle, and budget.' }}</p>
+    <a href="{{ section.settings.compare_url | default: '/pages/compare' }}" class="spa-compare__btn">
+      {{ section.settings.button_text | default: 'Compare Models' }}
+    </a>
+
+    {%- if collection_name != blank -%}
+      <div class="spa-compare__collection">
+        <p class="spa-compare__collection-label">Part of</p>
+        <p class="spa-compare__collection-name">{{ collection_name }}</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spa Compare CTA",
+  "tag": "section",
+  "class": "shopify-section--spa-compare",
+  "settings": [
+    {
+      "type": "text",
+      "id": "overline",
+      "label": "Overline text",
+      "default": "Not sure which model?"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Compare the full collection."
+    },
+    {
+      "type": "textarea",
+      "id": "body",
+      "label": "Body text",
+      "default": "Find the perfect spa for your space, lifestyle, and budget."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Compare Models"
+    },
+    {
+      "type": "url",
+      "id": "compare_url",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "label": "Overlay opacity",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 45,
+      "unit": "%"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Compare CTA"
+    }
+  ]
+}
+{% endschema %}

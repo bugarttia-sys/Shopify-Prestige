@@ -1,0 +1,257 @@
+{%- comment -%}
+  SPA DEALER — Dealer/showroom locator with contact options
+  Uses: product.metafields.dealer.locations (json list)
+        Settings for fallback contact info
+{%- endcomment -%}
+
+{%- liquid
+  assign locations = product.metafields.dealer.locations.value
+-%}
+
+<style>
+  #shopify-section-{{ section.id }} .spa-dealer {
+    padding: clamp(3rem, 5vw, 5rem) 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__container {
+    max-width: var(--container-lg-max-width, 1200px);
+    margin-inline: auto;
+    padding-inline: var(--container-gutter, 1.25rem);
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__header {
+    text-align: center;
+    margin-bottom: clamp(2rem, 3vw, 3rem);
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gms-gold, #C68A1F);
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__subheading {
+    font-size: 0.95rem;
+    opacity: 0.65;
+    margin: 0;
+  }
+
+  /* --- Contact cards grid --- */
+  #shopify-section-{{ section.id }} .spa-dealer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card {
+    border: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    border-radius: var(--gms-radius, 2px);
+    padding: 1.5rem;
+    text-align: center;
+    transition: border-color 0.35s ease, box-shadow 0.35s ease;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card:hover {
+    border-color: var(--gms-gold, #C68A1F);
+    box-shadow: 0 2px 16px rgba(0,0,0,0.06);
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card-icon {
+    margin-bottom: 0.75rem;
+    opacity: 0.5;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 0 0 0.35rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card-value {
+    font-size: 0.95rem;
+    font-weight: 500;
+    margin: 0 0 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--gms-gold, #C68A1F);
+    text-decoration: none;
+    transition: opacity 0.25s ease;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__card-link:hover {
+    opacity: 0.7;
+  }
+
+  /* --- Locations list --- */
+  #shopify-section-{{ section.id }} .spa-dealer__locations {
+    border-top: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    padding-top: 2rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__locations-title {
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.5;
+    text-align: center;
+    margin-bottom: 1.25rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__location-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__location {
+    padding: 1rem;
+    border: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    border-radius: var(--gms-radius, 2px);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__location-name {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-dealer__location-address {
+    opacity: 0.65;
+  }
+</style>
+
+<section class="spa-dealer" aria-label="Find a dealer">
+  <div class="spa-dealer__container">
+    <div class="spa-dealer__header">
+      <p class="spa-dealer__label">{{ section.settings.label | default: 'Experience' }}</p>
+      <h2 class="spa-dealer__heading">{{ section.settings.heading | default: 'Experience it in person.' }}</h2>
+      <p class="spa-dealer__subheading">{{ section.settings.subheading | default: 'Visit a showroom or schedule a private test soak.' }}</p>
+    </div>
+
+    {%- comment -%} Contact option cards {%- endcomment -%}
+    <div class="spa-dealer__grid">
+      <div class="spa-dealer__card">
+        <div class="spa-dealer__card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg>
+        </div>
+        <h3 class="spa-dealer__card-title">Call Us</h3>
+        <p class="spa-dealer__card-value">{{ section.settings.phone | default: '+31 (0)85 0000 000' }}</p>
+        <a href="tel:{{ section.settings.phone | default: '+31850000000' | remove: ' ' | remove: '(' | remove: ')' }}" class="spa-dealer__card-link">Call now &rarr;</a>
+      </div>
+
+      <div class="spa-dealer__card">
+        <div class="spa-dealer__card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+        </div>
+        <h3 class="spa-dealer__card-title">Email</h3>
+        <p class="spa-dealer__card-value">{{ section.settings.email | default: 'info@grandmasterspas.com' }}</p>
+        <a href="mailto:{{ section.settings.email | default: 'info@grandmasterspas.com' }}" class="spa-dealer__card-link">Send email &rarr;</a>
+      </div>
+
+      <div class="spa-dealer__card">
+        <div class="spa-dealer__card-icon">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <h3 class="spa-dealer__card-title">Visit Showroom</h3>
+        <p class="spa-dealer__card-value">{{ section.settings.showroom_city | default: 'By appointment' }}</p>
+        <a href="{{ section.settings.booking_url | default: '/pages/contact' }}" class="spa-dealer__card-link">Book visit &rarr;</a>
+      </div>
+    </div>
+
+    {%- comment -%} Dealer locations from metafield {%- endcomment -%}
+    {%- if locations != blank and locations.size > 0 -%}
+      <div class="spa-dealer__locations">
+        <p class="spa-dealer__locations-title">Authorized Dealers</p>
+        <ul class="spa-dealer__location-list">
+          {%- for loc in locations -%}
+            <li class="spa-dealer__location">
+              <p class="spa-dealer__location-name">{{ loc.name }}</p>
+              <p class="spa-dealer__location-address">{{ loc.address }}</p>
+            </li>
+          {%- endfor -%}
+        </ul>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Spa Dealer",
+  "tag": "section",
+  "class": "shopify-section--spa-dealer",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Experience"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Experience it in person."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "Visit a showroom or schedule a private test soak."
+    },
+    {
+      "type": "text",
+      "id": "phone",
+      "label": "Phone number",
+      "default": "+31 (0)85 0000 000"
+    },
+    {
+      "type": "text",
+      "id": "email",
+      "label": "Email address",
+      "default": "info@grandmasterspas.com"
+    },
+    {
+      "type": "text",
+      "id": "showroom_city",
+      "label": "Showroom city/label",
+      "default": "By appointment"
+    },
+    {
+      "type": "url",
+      "id": "booking_url",
+      "label": "Booking page link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Dealer"
+    }
+  ]
+}
+{% endschema %}

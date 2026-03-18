@@ -1,0 +1,319 @@
+{%- comment -%}
+  SPA LEAD FORM — Lead capture form (quote request / test soak booking)
+  Submits to Shopify customer API or external endpoint
+{%- endcomment -%}
+
+<style>
+  #shopify-section-{{ section.id }} .spa-lead {
+    padding: clamp(3rem, 5vw, 5rem) 0;
+    background: var(--gms-light-grey, #F5F5F5);
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__container {
+    max-width: 640px;
+    margin-inline: auto;
+    padding-inline: var(--container-gutter, 1.25rem);
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__header {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__label {
+    font-size: 0.65rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gms-gold, #C68A1F);
+    opacity: 0.9;
+    margin-bottom: 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__heading {
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    font-weight: 300;
+    letter-spacing: -0.01em;
+    margin: 0 0 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__subheading {
+    font-size: 0.9rem;
+    opacity: 0.6;
+    margin: 0;
+  }
+
+  /* --- Form --- */
+  #shopify-section-{{ section.id }} .spa-lead__form {
+    background: #fff;
+    border-radius: var(--gms-radius, 2px);
+    padding: clamp(1.5rem, 3vw, 2.5rem);
+    box-shadow: 0 1px 8px rgba(0,0,0,0.04);
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field--full {
+    grid-column: 1 / -1;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field label {
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field input,
+  #shopify-section-{{ section.id }} .spa-lead__field select,
+  #shopify-section-{{ section.id }} .spa-lead__field textarea {
+    width: 100%;
+    padding: 0.75rem 0.85rem;
+    font-size: 0.9rem;
+    font-family: inherit;
+    border: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+    border-radius: var(--gms-radius, 2px);
+    background: #fff;
+    color: inherit;
+    transition: border-color 0.25s ease;
+    box-sizing: border-box;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field input:focus,
+  #shopify-section-{{ section.id }} .spa-lead__field select:focus,
+  #shopify-section-{{ section.id }} .spa-lead__field textarea:focus {
+    outline: 2px solid var(--gms-gold, #C68A1F);
+    outline-offset: -1px;
+    border-color: var(--gms-gold, #C68A1F);
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__field textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__submit {
+    display: block;
+    width: 100%;
+    padding: 0.95em 2em;
+    margin-top: 1.5rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    font-family: inherit;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: var(--gms-gold, #C68A1F);
+    color: #fff;
+    border: 2px solid var(--gms-gold, #C68A1F);
+    border-radius: var(--gms-radius, 2px);
+    cursor: pointer;
+    transition: all 0.35s ease;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__submit:hover {
+    background: var(--gms-gold-light, #D6A243);
+    border-color: var(--gms-gold-light, #D6A243);
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__privacy {
+    text-align: center;
+    font-size: 0.72rem;
+    opacity: 0.45;
+    margin-top: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__privacy a {
+    text-decoration: underline;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__success {
+    display: none;
+    text-align: center;
+    padding: 2rem 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__success--visible {
+    display: block;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__success-icon {
+    font-size: 2.5rem;
+    color: var(--gms-gold, #C68A1F);
+    margin-bottom: 0.75rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__success-heading {
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin: 0 0 0.5rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-lead__success-body {
+    font-size: 0.9rem;
+    opacity: 0.65;
+    margin: 0;
+  }
+
+  @media (max-width: 699px) {
+    #shopify-section-{{ section.id }} .spa-lead__row {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+
+<section class="spa-lead" aria-label="Request a quote">
+  <div class="spa-lead__container">
+    <div class="spa-lead__header">
+      <p class="spa-lead__label">{{ section.settings.label | default: 'Get Started' }}</p>
+      <h2 class="spa-lead__heading">{{ section.settings.heading | default: 'Request your personal quote.' }}</h2>
+      <p class="spa-lead__subheading">{{ section.settings.subheading | default: 'We will get back to you within 24 hours.' }}</p>
+    </div>
+
+    <div class="spa-lead__form-wrap">
+      <form class="spa-lead__form" id="spa-lead-form-{{ section.id }}" action="/contact#spa-lead" method="post">
+        <input type="hidden" name="form_type" value="contact">
+        <input type="hidden" name="utf8" value="✓">
+        <input type="hidden" name="contact[product]" value="{{ product.title }}">
+        <input type="hidden" name="contact[product_handle]" value="{{ product.handle }}">
+
+        <div class="spa-lead__row">
+          <div class="spa-lead__field">
+            <label for="spa-lead-first-{{ section.id }}">First Name</label>
+            <input type="text" id="spa-lead-first-{{ section.id }}" name="contact[first_name]" required autocomplete="given-name">
+          </div>
+          <div class="spa-lead__field">
+            <label for="spa-lead-last-{{ section.id }}">Last Name</label>
+            <input type="text" id="spa-lead-last-{{ section.id }}" name="contact[last_name]" required autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="spa-lead__row">
+          <div class="spa-lead__field">
+            <label for="spa-lead-email-{{ section.id }}">Email</label>
+            <input type="email" id="spa-lead-email-{{ section.id }}" name="contact[email]" required autocomplete="email">
+          </div>
+          <div class="spa-lead__field">
+            <label for="spa-lead-phone-{{ section.id }}">Phone</label>
+            <input type="tel" id="spa-lead-phone-{{ section.id }}" name="contact[phone]" autocomplete="tel">
+          </div>
+        </div>
+
+        <div class="spa-lead__row">
+          <div class="spa-lead__field--full">
+            <label for="spa-lead-interest-{{ section.id }}">I'm interested in</label>
+            <select id="spa-lead-interest-{{ section.id }}" name="contact[interest]">
+              <option value="quote">A price quote</option>
+              <option value="test-soak">Booking a test soak</option>
+              <option value="showroom">Visiting a showroom</option>
+              <option value="info">General information</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="spa-lead__row">
+          <div class="spa-lead__field--full">
+            <label for="spa-lead-message-{{ section.id }}">Message (optional)</label>
+            <textarea id="spa-lead-message-{{ section.id }}" name="contact[body]" placeholder="Any questions or specific requirements..."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="spa-lead__submit">
+          {{ section.settings.button_text | default: 'Send Request' }}
+        </button>
+
+        <p class="spa-lead__privacy">
+          By submitting you agree to our <a href="{{ section.settings.privacy_url | default: '/policies/privacy-policy' }}">privacy policy</a>.
+        </p>
+      </form>
+
+      <div class="spa-lead__success" id="spa-lead-success-{{ section.id }}">
+        <div class="spa-lead__success-icon">&check;</div>
+        <h3 class="spa-lead__success-heading">Thank you!</h3>
+        <p class="spa-lead__success-body">We've received your request for the {{ product.title }}. We'll be in touch within 24 hours.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  (function() {
+    var form = document.querySelector('#spa-lead-form-{{ section.id }}');
+    if (!form) return;
+
+    form.addEventListener('submit', function(e) {
+      var btn = form.querySelector('.spa-lead__submit');
+      btn.disabled = true;
+      btn.textContent = 'Sending...';
+    });
+
+    if (window.location.hash === '#spa-lead' || document.querySelector('.form--success')) {
+      var formWrap = form.parentElement;
+      if (formWrap) {
+        form.style.display = 'none';
+        var success = document.querySelector('#spa-lead-success-{{ section.id }}');
+        if (success) success.classList.add('spa-lead__success--visible');
+      }
+    }
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Spa Lead Form",
+  "tag": "section",
+  "class": "shopify-section--spa-lead-form",
+  "settings": [
+    {
+      "type": "text",
+      "id": "label",
+      "label": "Section label",
+      "default": "Get Started"
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Request your personal quote."
+    },
+    {
+      "type": "text",
+      "id": "subheading",
+      "label": "Subheading",
+      "default": "We'll get back to you within 24 hours."
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Submit button text",
+      "default": "Send Request"
+    },
+    {
+      "type": "url",
+      "id": "privacy_url",
+      "label": "Privacy policy link"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Spa Lead Form"
+    }
+  ]
+}
+{% endschema %}
