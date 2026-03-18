@@ -1,5 +1,6 @@
 {%- comment -%}
-  SPA HERO — Full-viewport hero with metafield-driven content
+  SPA HERO — Ultra-premium full-bleed hero with anchored section nav
+  Inspired by luxury automotive page structure (centered content, gradient, anchor nav)
   Uses: product.metafields.media.hero_desktop / hero_mobile
         product.metafields.content.hero_tagline
         product.metafields.descriptors.subtitle
@@ -11,23 +12,28 @@
   assign hero_mobile = product.metafields.media.hero_mobile.value
   assign tagline     = product.metafields.content.hero_tagline.value | default: product.metafields.descriptors.subtitle.value | default: 'The Ultimate Hydrotherapy Experience'
   assign cta_text    = product.metafields.custom.primary_cta.value | default: section.settings.cta_text
-  assign cta_url     = section.settings.cta_url | default: '#product-overview'
+  assign cta_url     = section.settings.cta_url | default: '#spa-design'
   assign cta2_text   = section.settings.cta2_text
-  assign cta2_url    = section.settings.cta2_url | default: '#product-configure'
+  assign cta2_url    = section.settings.cta2_url | default: '#spa-configure'
 -%}
 
 <style>
   #shopify-section-{{ section.id }} {
-    --overlay-opacity: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+    --hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
   }
 
+  /* ── HERO ── */
   #shopify-section-{{ section.id }} .spa-hero {
     position: relative;
     min-height: 100vh;
     min-height: 100dvh;
-    display: grid;
-    place-items: end start;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
     overflow: hidden;
+    text-align: center;
+    color: #fff;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__media {
@@ -47,10 +53,11 @@
     position: absolute;
     inset: 0;
     background: linear-gradient(
-      to top,
-      rgba(0, 0, 0, calc(0.35 + var(--overlay-opacity))) 0%,
-      rgba(0, 0, 0, var(--overlay-opacity)) 40%,
-      transparent 70%
+      180deg,
+      rgba(0,0,0,0.15) 0%,
+      transparent 35%,
+      rgba(0,0,0,calc(0.1 + var(--hero-overlay))) 65%,
+      rgba(0,0,0,calc(0.5 + var(--hero-overlay))) 100%
     );
     pointer-events: none;
     z-index: 1;
@@ -59,85 +66,157 @@
   #shopify-section-{{ section.id }} .spa-hero__content {
     position: relative;
     z-index: 2;
-    padding: clamp(2rem, 6vw, 5rem) clamp(1.25rem, 4vw, 3rem);
-    max-width: 640px;
-    color: #fff;
+    padding: 0 clamp(1.25rem, 4vw, 3rem) clamp(3rem, 8vw, 7rem);
+    max-width: 800px;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__brand {
-    font-size: 0.7rem;
-    letter-spacing: 0.2em;
+    font-size: 0.65rem;
+    font-weight: 500;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    opacity: 0.75;
-    margin-bottom: 0.5rem;
+    opacity: 0.6;
+    margin-bottom: 1rem;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__title {
-    font-size: clamp(2.8rem, 6vw, 5.5rem);
-    font-weight: 300;
-    letter-spacing: -0.02em;
-    line-height: 1.05;
-    margin: 0 0 0.75rem;
+    font-size: clamp(3rem, 7vw, 6rem);
+    font-weight: 200;
+    letter-spacing: -0.03em;
+    line-height: 1;
+    margin: 0 0 1rem;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__tagline {
-    font-size: clamp(0.9rem, 1.2vw, 1.1rem);
-    opacity: 0.8;
-    max-width: 32ch;
-    margin: 0 0 1.5rem;
-    line-height: 1.5;
+    font-size: clamp(0.95rem, 1.3vw, 1.15rem);
+    font-weight: 300;
+    opacity: 0.7;
+    max-width: 40ch;
+    margin: 0 auto 2rem;
+    line-height: 1.6;
+    letter-spacing: 0.01em;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__actions {
     display: flex;
+    justify-content: center;
     flex-wrap: wrap;
     gap: 0.75rem;
+    margin-bottom: 0.5rem;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    padding: 0.85em 2em;
-    font-size: 0.8rem;
+    padding: 0.9em 2.4em;
+    font-size: 0.75rem;
     font-weight: 600;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     text-transform: uppercase;
     text-decoration: none;
-    border-radius: var(--gms-radius, 2px);
-    transition: all 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    border-radius: 0;
+    transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     cursor: pointer;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__btn--solid {
-    background: var(--gms-gold, #C68A1F);
-    color: #fff;
-    border: 2px solid var(--gms-gold, #C68A1F);
+    background: #fff;
+    color: var(--gms-charcoal, #1A1A1A);
+    border: 1px solid #fff;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__btn--solid:hover {
-    background: var(--gms-gold-light, #D6A243);
-    border-color: var(--gms-gold-light, #D6A243);
+    background: transparent;
+    color: #fff;
   }
 
   #shopify-section-{{ section.id }} .spa-hero__btn--outline {
     background: transparent;
     color: #fff;
-    border: 2px solid rgba(255, 255, 255, 0.5);
+    border: 1px solid rgba(255,255,255,0.4);
   }
 
   #shopify-section-{{ section.id }} .spa-hero__btn--outline:hover {
     border-color: #fff;
   }
 
+  /* ── SCROLL INDICATOR ── */
+  #shopify-section-{{ section.id }} .spa-hero__scroll {
+    position: relative;
+    z-index: 2;
+    padding-bottom: 2rem;
+    opacity: 0.4;
+    animation: spa-hero-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes spa-hero-pulse {
+    0%, 100% { transform: translateY(0); opacity: 0.4; }
+    50% { transform: translateY(6px); opacity: 0.7; }
+  }
+
+  /* ── ANCHOR NAV ── */
+  #shopify-section-{{ section.id }} .spa-hero__nav {
+    position: relative;
+    z-index: 3;
+    width: 100%;
+    background: var(--gms-charcoal, #1A1A1A);
+    border-top: 1px solid rgba(255,255,255,0.08);
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__nav-inner {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    max-width: 1200px;
+    margin: 0 auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__nav-inner::-webkit-scrollbar {
+    display: none;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__nav-link {
+    display: flex;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    font-size: 0.68rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.5);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 2px solid transparent;
+    transition: all 0.3s ease;
+  }
+
+  #shopify-section-{{ section.id }} .spa-hero__nav-link:hover,
+  #shopify-section-{{ section.id }} .spa-hero__nav-link:focus-visible {
+    color: #fff;
+    border-bottom-color: var(--gms-gold, #C68A1F);
+  }
+
   @media (max-width: 699px) {
+    #shopify-section-{{ section.id }} .spa-hero__title {
+      font-size: 2.5rem;
+    }
+
     #shopify-section-{{ section.id }} .spa-hero__actions {
       flex-direction: column;
+      padding: 0 1rem;
     }
 
     #shopify-section-{{ section.id }} .spa-hero__btn {
       width: 100%;
-      justify-content: center;
+    }
+
+    #shopify-section-{{ section.id }} .spa-hero__nav-link {
+      padding: 0.85rem 1.1rem;
+      font-size: 0.62rem;
     }
   }
 </style>
@@ -175,6 +254,24 @@
       {%- endif -%}
     </div>
   </div>
+
+  {%- comment -%} Scroll indicator {%- endcomment -%}
+  <div class="spa-hero__scroll" aria-hidden="true">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 5v14M5 12l7 7 7-7"/></svg>
+  </div>
+
+  {%- comment -%} Anchored section navigation {%- endcomment -%}
+  {%- if section.settings.show_nav -%}
+    <nav class="spa-hero__nav" aria-label="Page sections">
+      <div class="spa-hero__nav-inner">
+        <a href="#spa-design" class="spa-hero__nav-link">Design</a>
+        <a href="#spa-hydrotherapy" class="spa-hero__nav-link">Hydrotherapy</a>
+        <a href="#spa-technology" class="spa-hero__nav-link">Technology</a>
+        <a href="#spa-materials" class="spa-hero__nav-link">Construction</a>
+        <a href="#spa-configure" class="spa-hero__nav-link">Configure</a>
+      </div>
+    </nav>
+  {%- endif -%}
 </section>
 
 {% schema %}
@@ -187,6 +284,12 @@
       "type": "checkbox",
       "id": "allow_transparent_header",
       "label": "Allow transparent header",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_nav",
+      "label": "Show anchor navigation bar",
       "default": true
     },
     {
@@ -224,7 +327,7 @@
       "min": 0,
       "max": 100,
       "step": 5,
-      "default": 30,
+      "default": 20,
       "unit": "%"
     }
   ],
