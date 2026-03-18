@@ -1,131 +1,90 @@
 {%- comment -%}
-  SPA TECHNOLOGY — Proprietary technology showcase
-  Uses: product.metafields.content.technology_story
-        product.metafields.features.proprietary (list)
+  SPA TECHNOLOGY — Advanced technology with tabbed spec interface
+  Anchored as #spa-technology
+  Uses: product.metafields.specs.* / construction.* / warranty.* / features.proprietary
+        product.metafields.content.technology_story
         product.metafields.media.technology
-        product.metafields.construction.*
 {%- endcomment -%}
 
 {%- liquid
   assign tech_story = product.metafields.content.technology_story.value
   assign tech_img = product.metafields.media.technology.value | default: product.featured_image
   assign proprietary = product.metafields.features.proprietary.value
-  assign construction = product.metafields.construction
+  assign s = product.metafields.specs
+  assign c = product.metafields.construction
+  assign w = product.metafields.warranty
+  assign certs = product.metafields.product.certifications.value
 -%}
 
 <style>
   #shopify-section-{{ section.id }} .spa-tech {
-    padding: clamp(3rem, 5vw, 5rem) 0;
+    background: #f7f7f7;
+    color: var(--gms-charcoal, #1A1A1A);
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__container {
-    max-width: var(--container-lg-max-width, 1200px);
-    margin-inline: auto;
-    padding-inline: var(--container-gutter, 1.25rem);
+  /* ── Header ── */
+  #shopify-section-{{ section.id }} .spa-tech__header {
+    text-align: center;
+    padding: clamp(4rem, 8vw, 8rem) clamp(1.25rem, 4vw, 3rem) clamp(2rem, 4vw, 3rem);
   }
 
-  /* --- Hero block: full-width image with overlay text --- */
-  #shopify-section-{{ section.id }} .spa-tech__hero {
-    position: relative;
-    border-radius: var(--gms-radius, 2px);
-    overflow: hidden;
-    margin-bottom: clamp(3rem, 4vw, 4rem);
-    min-height: 50vh;
-    display: grid;
-    place-items: end start;
-  }
-
-  #shopify-section-{{ section.id }} .spa-tech__hero-media {
-    position: absolute;
-    inset: 0;
-  }
-
-  #shopify-section-{{ section.id }} .spa-tech__hero-media img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  #shopify-section-{{ section.id }} .spa-tech__hero::after {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(to right, rgba(0,0,0,0.70) 0%, rgba(0,0,0,0.30) 45%, transparent 72%),
-      linear-gradient(to top, rgba(0,0,0,0.45) 0%, transparent 55%);
-    pointer-events: none;
-    z-index: 1;
-  }
-
-  #shopify-section-{{ section.id }} .spa-tech__hero-content {
-    position: relative;
-    z-index: 2;
-    padding: clamp(2rem, 4vw, 3.5rem);
-    max-width: 560px;
-    color: #fff;
-  }
-
-  #shopify-section-{{ section.id }} .spa-tech__hero-label {
-    font-size: 0.65rem;
-    letter-spacing: 0.18em;
+  #shopify-section-{{ section.id }} .spa-tech__eyebrow {
+    font-size: 0.62rem;
+    font-weight: 600;
+    letter-spacing: 0.25em;
     text-transform: uppercase;
     color: var(--gms-gold, #C68A1F);
-    opacity: 0.9;
-    margin-bottom: 0.5rem;
+    margin-bottom: 1.25rem;
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__hero-heading {
-    font-size: clamp(2rem, 4vw, 3.25rem);
-    font-weight: 300;
-    letter-spacing: -0.02em;
+  #shopify-section-{{ section.id }} .spa-tech__heading {
+    font-size: clamp(2rem, 4.5vw, 3.5rem);
+    font-weight: 200;
+    letter-spacing: -0.025em;
     line-height: 1.1;
-    margin: 0 0 0.75rem;
+    margin: 0 auto;
+    max-width: 18ch;
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__hero-body {
-    font-size: clamp(0.85rem, 1.1vw, 1rem);
-    line-height: 1.7;
-    opacity: 0.82;
-    max-width: 46ch;
-    margin: 0;
+  #shopify-section-{{ section.id }} .spa-tech__heading::after {
+    content: '';
+    display: block;
+    width: 40px;
+    height: 2px;
+    background: var(--gms-gold, #C68A1F);
+    margin: 1.25rem auto 0;
   }
 
-  /* --- Proprietary features pills --- */
-  #shopify-section-{{ section.id }} .spa-tech__features {
+  #shopify-section-{{ section.id }} .spa-tech__intro {
+    font-size: clamp(0.9rem, 1.1vw, 1rem);
+    font-weight: 300;
+    line-height: 1.8;
+    opacity: 0.6;
+    max-width: 50ch;
+    margin: 1.25rem auto 0;
     text-align: center;
-    margin-bottom: clamp(3rem, 4vw, 4rem);
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__features-label {
-    font-size: 0.65rem;
-    font-weight: 600;
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    opacity: 0.5;
-    margin-bottom: 1rem;
-  }
-
+  /* ── Proprietary pills ── */
   #shopify-section-{{ section.id }} .spa-tech__pills {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    gap: 0.6rem;
+    gap: 0.5rem;
     list-style: none;
-    padding: 0;
-    margin: 0;
+    padding: clamp(1.5rem, 3vw, 2.5rem) clamp(1.25rem, 4vw, 3rem);
+    margin: 0 auto;
+    max-width: 900px;
   }
 
   #shopify-section-{{ section.id }} .spa-tech__pill {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.8rem;
+    font-size: 0.72rem;
     font-weight: 500;
-    padding: 0.5em 1.2em;
+    padding: 0.45em 1.1em;
     border: 1px solid var(--gms-gold, #C68A1F);
     color: var(--gms-gold, #C68A1F);
     border-radius: 100px;
-    letter-spacing: 0.01em;
-    transition: all 0.35s ease;
+    transition: all 0.3s ease;
   }
 
   #shopify-section-{{ section.id }} .spa-tech__pill:hover {
@@ -133,138 +92,195 @@
     color: #fff;
   }
 
-  /* --- Construction grid --- */
-  #shopify-section-{{ section.id }} .spa-tech__construction {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    padding-top: clamp(2rem, 3vw, 3rem);
-    border-top: 1px solid var(--gms-border, rgba(0,0,0,0.06));
+  /* ── Tabbed specs ── */
+  #shopify-section-{{ section.id }} .spa-tech__specs {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: clamp(2rem, 4vw, 4rem) clamp(1.25rem, 4vw, 3rem) clamp(4rem, 6vw, 6rem);
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__construct-item {
-    text-align: center;
-    padding: 1rem 0.5rem;
+  #shopify-section-{{ section.id }} .spa-tech__tabs {
+    display: flex;
+    justify-content: center;
+    gap: 0;
+    border-bottom: 1px solid rgba(0,0,0,0.08);
+    margin-bottom: 2rem;
+    overflow-x: auto;
+    scrollbar-width: none;
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__construct-icon {
-    margin-bottom: 0.75rem;
-    opacity: 0.6;
-  }
+  #shopify-section-{{ section.id }} .spa-tech__tabs::-webkit-scrollbar { display: none; }
 
-  #shopify-section-{{ section.id }} .spa-tech__construct-title {
-    font-size: 0.7rem;
+  #shopify-section-{{ section.id }} .spa-tech__tab {
+    padding: 0.9rem 1.5rem;
+    font-size: 0.68rem;
     font-weight: 600;
-    text-transform: uppercase;
     letter-spacing: 0.12em;
-    opacity: 0.55;
-    margin: 0 0 0.35rem;
+    text-transform: uppercase;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    opacity: 0.35;
+    transition: all 0.3s ease;
+    white-space: nowrap;
+    color: inherit;
   }
 
-  #shopify-section-{{ section.id }} .spa-tech__construct-value {
-    font-size: 0.9rem;
+  #shopify-section-{{ section.id }} .spa-tech__tab:hover { opacity: 0.7; }
+
+  #shopify-section-{{ section.id }} .spa-tech__tab[aria-selected="true"] {
+    opacity: 1;
+    border-bottom-color: var(--gms-gold, #C68A1F);
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__panel {
+    display: none;
+    max-width: 640px;
+    margin: 0 auto;
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__panel[aria-hidden="false"] { display: block; }
+
+  #shopify-section-{{ section.id }} .spa-tech__table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__table tr {
+    border-bottom: 1px solid rgba(0,0,0,0.05);
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__table td {
+    padding: 0.7rem 0;
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__table td:first-child {
+    font-weight: 300;
+    opacity: 0.5;
+    width: 50%;
+    padding-right: 1rem;
+  }
+
+  #shopify-section-{{ section.id }} .spa-tech__table td:last-child {
+    text-align: right;
     font-weight: 500;
-    line-height: 1.4;
   }
 
   @media (max-width: 699px) {
-    #shopify-section-{{ section.id }} .spa-tech__hero {
-      min-height: 40vh;
+    #shopify-section-{{ section.id }} .spa-tech__tabs {
+      justify-content: flex-start;
     }
 
-    #shopify-section-{{ section.id }} .spa-tech__hero::after {
-      background: linear-gradient(to top, rgba(0,0,0,0.78) 0%, rgba(0,0,0,0.25) 55%, transparent 100%);
-    }
-
-    #shopify-section-{{ section.id }} .spa-tech__pill {
-      font-size: 0.72rem;
-      padding: 0.4em 0.9em;
-    }
-
-    #shopify-section-{{ section.id }} .spa-tech__construction {
-      grid-template-columns: repeat(2, 1fr);
+    #shopify-section-{{ section.id }} .spa-tech__tab {
+      padding: 0.75rem 1rem;
+      font-size: 0.6rem;
     }
   }
 </style>
 
-<section class="spa-tech" aria-label="Technology and construction">
-  <div class="spa-tech__container">
+<section class="spa-tech" id="spa-technology" aria-label="Technology and specifications">
+  <div class="spa-tech__header">
+    <p class="spa-tech__eyebrow">{{ section.settings.eyebrow | default: 'Technology' }}</p>
+    <h2 class="spa-tech__heading">{{ section.settings.heading | default: 'Engineered without compromise.' }}</h2>
+    {%- if tech_story != blank -%}
+      <p class="spa-tech__intro">{{ tech_story | truncatewords: 35 }}</p>
+    {%- endif -%}
+  </div>
 
-    {%- comment -%} Technology hero banner {%- endcomment -%}
-    <div class="spa-tech__hero">
-      <div class="spa-tech__hero-media">
-        {%- if tech_img != blank -%}
-          {{ tech_img | image_url: width: tech_img.width | image_tag: loading: 'lazy', sizes: '100vw', widths: '600,900,1200,1600,2000,2400', alt: product.title | append: ' technology' }}
-        {%- else -%}
-          {{ 'lifestyle-2' | placeholder_svg_tag: 'placeholder' | replace: '<svg', '<svg preserveAspectRatio="xMinYMin slice"' }}
-        {%- endif -%}
-      </div>
-      <div class="spa-tech__hero-content">
-        <p class="spa-tech__hero-label">{{ section.settings.label | default: 'Proprietary Technology' }}</p>
-        <h2 class="spa-tech__hero-heading">{{ section.settings.heading | default: 'Engineered exclusively by Passion Spas.' }}</h2>
-        {%- if tech_story != blank -%}
-          <p class="spa-tech__hero-body">{{ tech_story | truncatewords: 50 }}</p>
-        {%- else -%}
-          <p class="spa-tech__hero-body">Award-winning innovations that exist nowhere else in the industry.</p>
-        {%- endif -%}
-      </div>
+  {%- if proprietary != blank and proprietary.size > 0 -%}
+    <ul class="spa-tech__pills">
+      {%- for p in proprietary -%}
+        <li class="spa-tech__pill">{{ p }}</li>
+      {%- endfor -%}
+    </ul>
+  {%- endif -%}
+
+  <div class="spa-tech__specs">
+    <div class="spa-tech__tabs" role="tablist">
+      <button class="spa-tech__tab" role="tab" aria-selected="true" aria-controls="tech-dim-{{ section.id }}" id="ttab-dim-{{ section.id }}" tabindex="0">Dimensions</button>
+      <button class="spa-tech__tab" role="tab" aria-selected="false" aria-controls="tech-perf-{{ section.id }}" id="ttab-perf-{{ section.id }}" tabindex="-1">Performance</button>
+      <button class="spa-tech__tab" role="tab" aria-selected="false" aria-controls="tech-build-{{ section.id }}" id="ttab-build-{{ section.id }}" tabindex="-1">Construction</button>
+      <button class="spa-tech__tab" role="tab" aria-selected="false" aria-controls="tech-warr-{{ section.id }}" id="ttab-warr-{{ section.id }}" tabindex="-1">Warranty</button>
     </div>
 
-    {%- comment -%} Proprietary features {%- endcomment -%}
-    {%- if proprietary != blank and proprietary.size > 0 -%}
-      <div class="spa-tech__features">
-        <p class="spa-tech__features-label">Patented & Proprietary</p>
-        <ul class="spa-tech__pills">
-          {%- for p in proprietary -%}
-            <li class="spa-tech__pill">{{ p }}</li>
+    <div class="spa-tech__panel" id="tech-dim-{{ section.id }}" role="tabpanel" aria-labelledby="ttab-dim-{{ section.id }}" aria-hidden="false">
+      <table class="spa-tech__table">
+        <tr><td>Dimensions (L&times;W&times;H)</td><td>{{ s.length_cm }} &times; {{ s.width_cm }} &times; {{ s.height_cm }} cm</td></tr>
+        <tr><td>Water Capacity</td><td>{{ s.water_capacity_liters }} litres</td></tr>
+        <tr><td>Dry Weight</td><td>{{ s.dry_weight_kg }} kg</td></tr>
+        <tr><td>Filled Weight</td><td>{{ s.filled_weight_kg }} kg</td></tr>
+        <tr><td>Seating</td><td>{{ s.persons_capacity }} persons ({{ s.seats }} seats, {{ s.loungers }} loungers)</td></tr>
+      </table>
+    </div>
+
+    <div class="spa-tech__panel" id="tech-perf-{{ section.id }}" role="tabpanel" aria-labelledby="ttab-perf-{{ section.id }}" aria-hidden="true">
+      <table class="spa-tech__table">
+        <tr><td>Total Jets</td><td>{{ s.total_jets }}</td></tr>
+        <tr><td>Hydrotherapy Jets</td><td>{{ s.hydro_jets }}</td></tr>
+        <tr><td>Air Jets</td><td>{{ s.air_jets }}</td></tr>
+        <tr><td>Massage Pumps</td><td>{{ s.massage_pumps }}</td></tr>
+        <tr><td>Filtration Pump</td><td>{{ s.filtration_pump }}</td></tr>
+        <tr><td>Electrical</td><td>{{ s.electrical }}</td></tr>
+      </table>
+    </div>
+
+    <div class="spa-tech__panel" id="tech-build-{{ section.id }}" role="tabpanel" aria-labelledby="ttab-build-{{ section.id }}" aria-hidden="true">
+      <table class="spa-tech__table">
+        <tr><td>Shell</td><td>{{ c.shell_material }}</td></tr>
+        <tr><td>Frame</td><td>{{ c.frame }}</td></tr>
+        <tr><td>Insulation</td><td>{{ c.insulation }}</td></tr>
+        <tr><td>Heating</td><td>{{ c.heating }}</td></tr>
+        <tr><td>Controls</td><td>{{ c.controls }}</td></tr>
+      </table>
+    </div>
+
+    <div class="spa-tech__panel" id="tech-warr-{{ section.id }}" role="tabpanel" aria-labelledby="ttab-warr-{{ section.id }}" aria-hidden="true">
+      <table class="spa-tech__table">
+        <tr><td>Structure</td><td>{{ w.structure_years }} years</td></tr>
+        <tr><td>Surface</td><td>{{ w.surface_years }} years</td></tr>
+        <tr><td>Equipment</td><td>{{ w.equipment_years }} years</td></tr>
+      </table>
+      {%- if certs -%}
+        <table class="spa-tech__table" style="margin-top:1rem">
+          {%- for cert in certs -%}
+            <tr><td>Certification</td><td>{{ cert }}</td></tr>
           {%- endfor -%}
-        </ul>
-      </div>
-    {%- endif -%}
-
-    {%- comment -%} Construction at a glance {%- endcomment -%}
-    {%- if construction.shell_material != blank -%}
-      <div class="spa-tech__construction">
-        <div class="spa-tech__construct-item">
-          <div class="spa-tech__construct-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/><path d="M2 12h20"/></svg>
-          </div>
-          <p class="spa-tech__construct-title">Shell</p>
-          <p class="spa-tech__construct-value">{{ construction.shell_material }}</p>
-        </div>
-        <div class="spa-tech__construct-item">
-          <div class="spa-tech__construct-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
-          </div>
-          <p class="spa-tech__construct-title">Frame</p>
-          <p class="spa-tech__construct-value">{{ construction.frame }}</p>
-        </div>
-        <div class="spa-tech__construct-item">
-          <div class="spa-tech__construct-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-          </div>
-          <p class="spa-tech__construct-title">Heating</p>
-          <p class="spa-tech__construct-value">{{ construction.heating }}</p>
-        </div>
-        <div class="spa-tech__construct-item">
-          <div class="spa-tech__construct-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M7 16l4-4 4 4 5-5"/></svg>
-          </div>
-          <p class="spa-tech__construct-title">Insulation</p>
-          <p class="spa-tech__construct-value">{{ construction.insulation }}</p>
-        </div>
-        <div class="spa-tech__construct-item">
-          <div class="spa-tech__construct-icon">
-            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          </div>
-          <p class="spa-tech__construct-title">Controls</p>
-          <p class="spa-tech__construct-value">{{ construction.controls }}</p>
-        </div>
-      </div>
-    {%- endif -%}
-
+        </table>
+      {%- endif -%}
+    </div>
   </div>
 </section>
+
+<script>
+  (function() {
+    var sec = document.querySelector('#shopify-section-{{ section.id }}');
+    if (!sec) return;
+    var tabs = sec.querySelectorAll('[role="tab"]');
+    var panels = sec.querySelectorAll('[role="tabpanel"]');
+    function activate(tab) {
+      tabs.forEach(function(t) { t.setAttribute('aria-selected','false'); t.setAttribute('tabindex','-1'); });
+      panels.forEach(function(p) { p.setAttribute('aria-hidden','true'); });
+      tab.setAttribute('aria-selected','true');
+      tab.setAttribute('tabindex','0');
+      tab.focus();
+      var p = sec.querySelector('#' + tab.getAttribute('aria-controls'));
+      if (p) p.setAttribute('aria-hidden','false');
+    }
+    tabs.forEach(function(tab) {
+      tab.addEventListener('click', function() { activate(tab); });
+      tab.addEventListener('keydown', function(e) {
+        var i = Array.prototype.indexOf.call(tabs, tab);
+        if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); activate(tabs[(i+1) % tabs.length]); }
+        if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); activate(tabs[(i-1+tabs.length) % tabs.length]); }
+        if (e.key === 'Home') { e.preventDefault(); activate(tabs[0]); }
+        if (e.key === 'End') { e.preventDefault(); activate(tabs[tabs.length-1]); }
+      });
+    });
+  })();
+</script>
 
 {% schema %}
 {
@@ -274,15 +290,15 @@
   "settings": [
     {
       "type": "text",
-      "id": "label",
-      "label": "Section label",
-      "default": "Proprietary Technology"
+      "id": "eyebrow",
+      "label": "Eyebrow text",
+      "default": "Technology"
     },
     {
       "type": "text",
       "id": "heading",
-      "label": "Hero heading",
-      "default": "Engineered exclusively by Passion Spas."
+      "label": "Heading",
+      "default": "Engineered without compromise."
     }
   ],
   "presets": [
