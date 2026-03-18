@@ -69,7 +69,7 @@
       "settings": {
         "color_scheme": "scheme-4",
         "image_size": "fill",
-        "image": "{{ product.metafields.media.hero_desktop.value }}",
+        "image": "shopify://shop_images/media_hero_desktop.jpg",
         "mobile_image": "{{ product.metafields.media.hero_mobile.value }}",
         "allow_transparent_header": true,
         "reveal_on_scroll": false,
